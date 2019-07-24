@@ -7,3 +7,4 @@
   sudo npm install express --save
   sudo npm install nodemon -g --save
   sudo npm install body-parser --save
+sudo npm audit fix --force
