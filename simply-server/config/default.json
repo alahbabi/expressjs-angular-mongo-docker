@@ -1,0 +1,10 @@
+{
+    "app" : {
+        "restApiEndPoint": {
+            "version1LoginPath" : "v1/login"
+        }
+    },
+    "mongodb" : {
+        "connectionString" : "mongodb://localhost/simply"
+    }
+}
