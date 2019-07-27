@@ -3,17 +3,7 @@ const schema = mongoose.Schema;
 
 //User model
 let User = new schema({
-    firstname: {
-      type: String,
-      required: true,
-      max: 100
-    },
-    lastname: {
-      type: String,
-      required: true,
-      max: 100
-    },
-    login: {
+    username: {
       type: String,
       required: true,
       max: 100
@@ -24,6 +14,21 @@ let User = new schema({
       max: 100
     },
     email :{
+      type: String,
+      required: true,
+      max: 100
+    },
+    firstname: {
+      type: String,
+      required: true,
+      max: 100
+    },
+    lastname: {
+      type: String,
+      required: true,
+      max: 100
+    },
+    profile: {
       type: String,
       required: true,
       max: 100

@@ -1,5 +1,26 @@
 const userService = require('../services/user');
 
+// loginUser
+exports.login = async function (request, response, next) {
+    // TODO: Validation of parameters ...
+    try {
+      await userService.login(request.body)
+        .then(user => user ? response.status(200).json({
+          status: 200,
+          data: user,
+          message: "User logged"
+        }) :
+        response.status(401).json({
+          message: 'Email or password is incorrect'
+        }));
+    } catch (error) {
+        return response.status(400).json({
+          status: 400,
+          message: error.message
+        });
+    }
+};
+
 // Insert user
 exports.addUser = async function (request, response, next) {
     // TODO: Validation of parameters ...

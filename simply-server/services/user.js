@@ -1,5 +1,23 @@
+const config = require('../config.json');
 const userModel = require('../models/user');
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+
+// Login  
+exports.login = async function ({email, password}){
+  try {
+        var user = await userModel.findOne({ email: email }).exec();
+        if (user && bcrypt.compareSync(password, user.password)) {
+          const token = jwt.sign({user}, config.secretKey, { expiresIn: '3600s' });
+          return {
+            user,
+            token
+          };
+        }
+    } catch (error) {
+        throw Error('Error login user  : ' + error.message);
+    }
+};
 
 // Find all Users
 exports.findAll = async function (){
@@ -16,8 +34,6 @@ exports.addUser = async function(body){
   try {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(body.password, salt);
-    console.log(salt);
-    console.log(hashedPassword);
     body.password = hashedPassword;
     var user = new userModel(body);
     var result = await user.save();
