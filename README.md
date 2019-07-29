@@ -1,32 +1,12 @@
-Fonctional specification :
+## Fonctional specifications
 
-Each project should have a manager
+**- Register part**
 
-GD is the only one can create a manager profile
+1. To be registred user should create his account {firstname, lastname, mail(unique), password, phone(unique), profile}
+2. An email of confirmation should be sended to his mailbox, with a mail confirmation link.
+3. The link sended has 5 min to expire
+4. When user click in his confirmation link, he should be redirect to login page with a green message 'Yees, your account was activated'
+5. User with employee profile can't access to his profile functionalities if a user with manager profile don't valide his account creation
 
-
-The manager can create a new project + employee cannot do it
-
-Each manager can access only his projects list
-
-
-Users has profiles (Employee + Manager + GD + RH) - registration with email confirmation Login
-
-Tasks (Description + Delay + Start date + End Date + Employee) (send email when manager affect a task to an employee)
-
-Absence + Holiday request (Each request should be validated by a manager + Employee send a request to his manager)
-
-Refund request (Nature + date + project + amount + justificatory(PDF) + sup to validate request)
-
-Managers has a list of refund request to validate.
-
-Managers can add other managers in his projects.
-
-Each employee has access to chat room concerning his projects
-
-Employee can be affected to multiple projects (So can access to multiple chat room)
-
-
-Application should have a batch for deleting all messages with a creation date higher than 2 hours
-
-Application should have a batch for calculating (Expenses by project)
+**- Login part**
+1. #TODO
