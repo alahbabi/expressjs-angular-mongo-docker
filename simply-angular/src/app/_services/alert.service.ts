@@ -2,6 +2,8 @@
 import { Router, NavigationStart } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 
+// La propriété providedIn: root du décorateur permet de dire que le service est accessible globalement
+// Cela signifie que le service est providé dans le root de l’application est qu’il est accessible globalement. D’autres options sont possibles.
 @Injectable({ providedIn: 'root' })
 export class AlertService {
     private subject = new Subject<any>();
