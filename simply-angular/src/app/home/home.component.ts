@@ -2,16 +2,17 @@
 import { first } from 'rxjs/operators';
 
 import { User } from '@/_models';
-import { UserService, AuthenticationService } from '@/_services';
+import { UserService, AuthenticationService, AlertService } from '@/_services';
 
 @Component({ templateUrl: 'home.component.html' })
 export class HomeComponent implements OnInit {
     currentUser: User;
-    users = [];
+    users : any;
 
     constructor(
         private authenticationService: AuthenticationService,
-        private userService: UserService
+        private userService: UserService,
+        private alertService: AlertService
     ) {
         this.currentUser = this.authenticationService.currentUserValue;
     }
@@ -28,7 +29,12 @@ export class HomeComponent implements OnInit {
 
     private loadAllUsers() {
         this.userService.getAll()
-            .pipe(first())
-            .subscribe(users => this.users = users);
+            .subscribe(
+                response => {
+                    this.users = response.data;
+                },
+                error => {
+                    this.alertService.error(error);
+                });
     }
 }

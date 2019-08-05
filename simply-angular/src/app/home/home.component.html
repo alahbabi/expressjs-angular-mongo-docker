@@ -1,9 +1,31 @@
-﻿<h1>Hi {{currentUser.firstName}}!</h1>
-<p>You're logged in with Angular 8!!</p>
-<h3>All registered users:</h3>
-<ul>
-    <li *ngFor="let user of users">
-        {{user.username}} ({{user.firstName}} {{user.lastName}})
-        - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
-    </li>
-</ul>
+﻿<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Firstname</th>
+            <th scope="col">Lastname</th>
+            <th scope="col">Email</th>
+            <th scope="col">Profile</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>{{user.username}}</td>
+            <td>{{user.firstname}}</td>
+            <td>{{user.lastname}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.profile}}</td>
+            <td>
+                <span class="table-remove">
+                    <button type="button"class="btn btn-danger btn-rounded btn-sm my-0" (click)="deleteUser(user._id)">Remove</button>
+                </span>
+            </td> 
+            <td>
+                <span class="table-remove" *ngIf="user.profile == 'Collaborator'">
+                    <button type="button" class="btn btn-info btn-rounded btn-sm my-0"  (click)="deleteUser(user._id)">Tasks</button>
+                </span>
+            </td>
+        </tr>
+    </tbody>
+    
+</table>

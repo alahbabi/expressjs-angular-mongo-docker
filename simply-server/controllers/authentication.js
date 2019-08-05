@@ -11,8 +11,8 @@ exports.login = async function (request, response, next) {
           message: "Succesfully authenticated"
         });
     } catch (error) {
-        return response.status(403).json({
-          status: 403,
+        return response.status(401).json({
+          status: 401,
           message: error.message
         });
     }

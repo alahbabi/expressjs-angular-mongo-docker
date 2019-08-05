@@ -10,6 +10,12 @@ export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
+    profiles = ['Collaborator', 'Manager' , 'Human resources'];
+    optionsSelect = [
+        { value: '1', label: 'Option 1' },
+        { value: '2', label: 'Option 2' },
+        { value: '3', label: 'Option 3' },
+      ];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -24,12 +30,15 @@ export class RegisterComponent implements OnInit {
         }
     }
 
+
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            username: ['', Validators.required],
-            password: ['', [Validators.required, Validators.minLength(6)]]
+            username : ['', Validators.required],
+            firstname: ['', Validators.required],
+            lastname: ['', Validators.required],
+            email: ['', Validators.required],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+            profile: ['', Validators.required]
         });
     }
 
