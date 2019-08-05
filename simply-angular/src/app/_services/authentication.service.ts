@@ -9,6 +9,8 @@ import { User } from '@/_models';
 // Cela signifie que le service est providé dans le root de l’application est qu’il est accessible globalement. D’autres options sont possibles.
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
+   // Un BehaviorSubject a obligatoirement une valeur par défaut.
+   //Il sauvegarde la dernière valeur qu'il a émis et l'envoie aux observateurs lors de leur subscribe
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
 
