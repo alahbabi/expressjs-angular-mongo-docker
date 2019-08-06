@@ -5,7 +5,6 @@ const user = require('./routes/user');
 const project = require('./routes/project');
 const task = require('./routes/task');
 const comment = require('./routes/comment');
-const authentication = require('./routes/authentication');
 const checkAuth = require('./middleware/check-auth')
 const cors = require('cors')
 
@@ -22,10 +21,9 @@ app.use(cors());
 // To Desactivate authentication : app.use("/user", user);
 // To activate anthentication : app.use("/user", checkAuth, user);
 app.use("/users", user);
-app.use("/projects", project);
-app.use("/tasks", task);
-app.use("/comments", comment);
-app.use("/" , authentication);
+app.use("/projects", checkAuth, project);
+app.use("/tasks", checkAuth, task);
+app.use("/comments", checkAuth, comment);
 
 // Starting application
 app.listen(3003 , () => {
