@@ -11,27 +11,28 @@ let User = new schema({
     password: {
       type: String,
       required: true,
-      max: 100
+      max: 30,
+      min: 8
     },
     email :{
       type: String,
       required: true,
-      max: 100
+      unique: true
     },
     firstname: {
       type: String,
       required: true,
-      max: 100
+      max: 80
     },
     lastname: {
       type: String,
       required: true,
-      max: 100
+      max: 80
     },
     profile: {
       type: String,
       required: true,
-      max: 100
+      max: 30
     }
 });
 
