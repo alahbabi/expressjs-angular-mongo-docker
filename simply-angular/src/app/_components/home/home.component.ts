@@ -27,6 +27,12 @@ export class HomeComponent implements OnInit {
             .subscribe(() => this.loadAllUsers());
     }
 
+    show(id: number) {
+        this.userService.delete(id)
+            .pipe(first())
+            .subscribe(() => this.loadAllUsers());
+    }
+
     private loadAllUsers() {
         this.userService.getAll()
             .subscribe(

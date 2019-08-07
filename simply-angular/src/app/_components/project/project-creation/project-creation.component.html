@@ -1,1 +1,25 @@
 <h2>Project creation</h2>
+<form [formGroup]="projectCreationForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Name is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="owner">Owner</label>
+        <select formControlName="owner" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.owner.errors }" > 
+            <option [value]="owner" *ngFor="let owner of owners"> {{owner.username}}</option>
+        </select>
+        <div *ngIf="submitted && f.owner.errors" class="invalid-feedback">
+            <div *ngIf="f.owner.errors.required">Owner is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Create
+        </button>
+    </div>
+</form>
