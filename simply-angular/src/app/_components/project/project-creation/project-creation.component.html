@@ -10,7 +10,7 @@
     <div class="form-group">
         <label for="owner">Owner</label>
         <select formControlName="owner" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.owner.errors }" > 
-            <option [value]="owner" *ngFor="let owner of owners"> {{owner.username}}</option>
+            <option [value]="owner.username" *ngFor="let owner of owners"> {{owner.username}}</option>
         </select>
         <div *ngIf="submitted && f.owner.errors" class="invalid-feedback">
             <div *ngIf="f.owner.errors.required">Owner is required</div>
@@ -23,3 +23,26 @@
         </button>
     </div>
 </form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Creation date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let project of projects">
+            <td>{{project.name}}</td>
+            <td>{{project.owner}}</td>
+            <td>{{project.creationDate | date : 'yyyy-MM-dd' }}</td>
+            <td>
+                <span class="table-remove">
+                    <button type="button"class="btn btn-danger btn-rounded btn-sm my-0" (click)="deleteProject(project._id)">Remove</button>
+                </span>
+            </td> 
+        </tr>
+    </tbody>
+    
+</table>

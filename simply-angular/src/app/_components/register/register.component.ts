@@ -11,11 +11,6 @@ export class RegisterComponent implements OnInit {
     loading = false;
     submitted = false;
     profiles = ['Collaborator', 'Manager' , 'Human resources'];
-    optionsSelect = [
-        { value: '1', label: 'Option 1' },
-        { value: '2', label: 'Option 2' },
-        { value: '3', label: 'Option 3' },
-      ];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -29,7 +24,6 @@ export class RegisterComponent implements OnInit {
             this.router.navigate(['/']);
         }
     }
-
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({

@@ -23,7 +23,7 @@ exports.findAll = async function (request, response, next) {
 exports.addProject = async function (request, response, next) {
   // TODO: Validation of parameters ...
   try {
-      var project = await projectService.addproject(request.body);
+      var project = await projectService.addProject(request.body);
       return response.status(200).json({
         status: 200,
         data: project,

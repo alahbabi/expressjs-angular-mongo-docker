@@ -14,6 +14,7 @@ exports.findAll = async function (){
 exports.addProject = async function(body){
   try {
     var project = new projectModel(body);
+    project.creationDate = new Date();
     var result = await project.save();
     return result;
   } catch (error) {
