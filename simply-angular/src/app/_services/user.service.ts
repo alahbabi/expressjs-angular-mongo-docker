@@ -13,6 +13,10 @@ export class UserService {
         return this.http.get<any>(`${config.apiUrl}/users`);
     }
 
+    getUserById(id: number) {
+        return this.http.get<any>(`${config.apiUrl}/users/`+ id);
+    }
+
     register(user: User) {
         return this.http.post(`${config.apiUrl}/users/register`, user);
     }

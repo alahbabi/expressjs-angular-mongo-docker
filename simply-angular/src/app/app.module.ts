@@ -6,7 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { appRoutingModule } from './app.routing';
 import { JwtInterceptor, ErrorInterceptor } from './shared/_helpers';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './_components/home';
+import { UserComponent } from './_components/user';
 import { LoginComponent } from './_components/login';
 import { RegisterComponent } from './_components/register';
 import { AlertComponent } from './_components/alert';
@@ -16,6 +16,7 @@ import { TaskDetailComponent } from './_components/task/task-detail';
 import { ProjectCreationComponent } from './_components/project/project-creation';
 import { ProjectListComponent } from './_components/project/project-list';
 import { ProjectDetailComponent } from './_components/project/project-detail';
+import { UserDetailComponent } from './_components/user-detail';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { ProjectDetailComponent } from './_components/project/project-detail';
     ],
     declarations: [
         AppComponent,
-        HomeComponent,
+        UserComponent,
+        UserDetailComponent,
         LoginComponent,
         RegisterComponent,
         AlertComponent,
