@@ -3,38 +3,21 @@
 <!-- main app container -->
 <div class="container">      <!-- nav -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="currentUser">
-    <a class="navbar-brand" href="#">Simply</a>
+    <a class="navbar-brand" [routerLink]="['/']">Simply</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
       aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/']" routerLinkActive="router-link-active" >Home
-            <span class="sr-only">(current)</span>
-          </a>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/']" >Users</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Users</a>
-          </li>
-          <li class="nav-item avatar dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-5" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-              Projects
-            </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-5">
-              <a class="dropdown-item" [routerLink]="['/project/create']">Create</a>
-            </div>
-          </li>
-        <li class="nav-item avatar dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-5" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-            Tasks
-          </a>
-          <div class="dropdown-menu dropdown-menu-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-5">
-            <a class="dropdown-item" [routerLink]="['/task/create']">Create</a>
-          </div>
+          <a class="nav-link" [routerLink]="['/project/create']">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/task/create']">Tasks</a>
         </li>
       </ul>
 
