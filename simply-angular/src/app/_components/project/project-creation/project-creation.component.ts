@@ -71,7 +71,6 @@ export class ProjectCreationComponent implements OnInit{
     refreshProjectList() {
         this.projectService.getAll().subscribe(
             response => {
-                console.log(response);
                 this.projects = response.data ;
             }, 
             error => {

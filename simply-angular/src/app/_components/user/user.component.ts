@@ -10,7 +10,6 @@ export class UserComponent implements OnInit {
     currentUser: User;
     users : any;
     user : User;
-    number = 5 ;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -35,7 +34,6 @@ export class UserComponent implements OnInit {
         this.userService.getUserById(id)
         .subscribe(
             response => {
-                console.log(response.data);
                 this.user = response.data ;
                 this.router.navigate(['/user-detail/'+ id]);
             },

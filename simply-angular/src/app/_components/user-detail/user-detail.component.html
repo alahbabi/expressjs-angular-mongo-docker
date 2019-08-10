@@ -1,2 +1,44 @@
-﻿<!-- Input -->
-<p> Hello {{myNum}}</p>
+﻿<div *ngIf="user">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="username">User name</label>
+                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  value={{user.username}}/>
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">User name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="firstname">First name</label>
+                <input type="text" formControlName="firstname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstname.errors } " value={{user.firstname}}/>
+                <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                    <div *ngIf="f.firstname.errors.required">First name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last name</label>
+                <input type="text" formControlName="lastname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }" value={{user.lastname}}/>
+                <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                    <div *ngIf="f.lastname.errors.required">Last name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" value={{user.email}}/>
+                <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="profile">Profile</label>
+                <select formControlName="profile" [(ngModel)]="user.profile" class="form-control"  [ngClass]="{ 'is-invalid': submitted && f.profile.errors }" > 
+                    
+                    <option [value]="profile" *ngFor="let profile of profiles"> {{profile}}</option>
+                </select>
+                <div *ngIf="submitted && f.profile.errors" class="invalid-feedback">
+                    <div *ngIf="f.profile.errors.required">Profile is required</div>
+                </div>
+            </div>
+        </form>
+        
+
+</div>

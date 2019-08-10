@@ -1,11 +1,10 @@
 ﻿<div class="row">
-        <div class="col-sm-5" >
-            <table class="table table-dark table-striped">
+        <div class="col-sm-6" >
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th scope="col">Username</th>
                         <th scope="col">Profile</th>
-                        <th></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -17,29 +16,24 @@
                         <td>{{user.profile}}</td>
                         <td>
                             <span>
-                                <button type="button" class="btn btn-info btn-rounded btn-sm my-0" (click)="detailUser(user._id)">D</button>
+                                <button type="button" class="btn btn-info btn-rounded btn-sm my-0" (click)="detailUser(user._id)">Detail</button>
                             </span>
                         </td> 
                         <td>
                             <span class="table-remove">
-                                <button type="button"class="btn btn-warning btn-rounded btn-sm my-0">T</button>
-                            </span>
-                        </td> 
-                        <td>
-                            <span class="table-remove">
-                                <button type="button"class="btn btn-danger btn-rounded btn-sm my-0" (click)="deleteUser(user._id)">R</button>
+                                <button type="button"class="btn btn-danger btn-rounded btn-sm my-0" (click)="deleteUser(user._id)">Delete</button>
                             </span>
                         </td> 
                         <td>
                             <span class="table-remove" *ngIf="user.profile == 'Collaborator'">
-                                <button type="button" class="btn btn-info btn-rounded btn-sm my-0">Tasks</button>
+                                <button type="button" class="btn btn-warning btn-rounded btn-sm my-0">Tasks</button>
                             </span>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-sm-7">
-           <app-user-detail [myNum]="number"></app-user-detail>
+        <div class="col-sm-6">
+           <app-user-detail [user]="user"></app-user-detail>
         </div>
     </div>
