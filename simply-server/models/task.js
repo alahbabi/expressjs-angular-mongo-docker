@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema ;
 
 // Task model
-
 let Task = new schema ({
     title: {
         type: String,
@@ -13,19 +12,50 @@ let Task = new schema ({
         type: Date,
         required: true
     },
-    owner: { 
-        type: schema.Types.ObjectId, 
-        ref: 'user',
-        required: true
+    modificationDate: {
+        type: Date,
+        required: false
     },
-    assignment: { 
-        type: schema.Types.ObjectId, 
-        ref: 'user' 
+    owner: { 
+        type: String,
+        required: true,
+        max: 100
+    },
+    project: {
+        type: String,
+        required: true,
+        max: 50
+    },
+    assignee: { 
+        type: String,
+        required: true,
+        max: 100 
+    },
+    descirption: {
+        type: String,
+        required: true,
+        max: 20
     },
     comments: [{ 
-        type: schema.Types.ObjectId, 
-        ref: 'comment' 
-    }]
+        type: String,
+        required: true,
+        max: 200
+    }],
+    participants: [{ 
+        type: String,
+        required: true,
+        max: 100
+    }],
+    priority: {
+        type: String,
+        required: true,
+        max: 20
+    },
+    status: {
+        type: String,
+        required: true,
+        max: 20
+    }
 });
 
 module.exports = mongoose.model('task', Task);
