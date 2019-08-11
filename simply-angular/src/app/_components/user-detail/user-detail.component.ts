@@ -31,6 +31,10 @@ export class UserDetailComponent implements OnInit {
         });
     }
 
+    onSubmit(id: number){
+        console.log(id);
+    }
+
     // convenience getter for easy access to form fields
     get f() { return this.userForm.controls; }
 }
