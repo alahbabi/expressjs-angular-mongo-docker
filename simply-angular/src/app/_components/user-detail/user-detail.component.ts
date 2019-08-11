@@ -34,6 +34,9 @@ export class UserDetailComponent implements OnInit {
             email: ['', Validators.required],
             profile: ['', Validators.required]
         });
+        this.userService.usersSource.subscribe(data => {
+            this.users = data;
+        })
     }
 
     onUpdate(id: number){
@@ -50,9 +53,9 @@ export class UserDetailComponent implements OnInit {
         this.userService.update(id, this.userForm.value)
             .subscribe(
                 response => {
-                    this.userService.getAll().subscribe(response => {
-                        this.userService.usersSource.next(response.data);
-                    })
+                    let index = this.users.findIndex(x => x._id === id)
+                    this.users[index] = response.data;
+                    this.userService.usersSource.next(this.users);
                     this.alertService.success(response.message, false);
                 }, error => {
                     this.alertService.error(error);

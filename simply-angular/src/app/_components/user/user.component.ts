@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
         this.loadAllUsers();
         this.userService.usersSource.subscribe(data => {
             this.users = data;
-        });
+        })
     }
 
     deleteUser(id: number) {
@@ -51,6 +51,7 @@ export class UserComponent implements OnInit {
             .subscribe(
                 response => {
                     this.users = response.data;
+                    this.userService.usersSource.next(this.users);
                 },
                 error => {
                     this.alertService.error(error);
