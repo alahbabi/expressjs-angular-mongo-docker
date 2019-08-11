@@ -14,7 +14,7 @@ export class UserService {
     }
 
     getUserById(id: number) {
-        return this.http.get<any>(`${config.apiUrl}/users/`+ id);
+        return this.http.get<any>(`${config.apiUrl}/users/${id}`);
     }
 
     register(user: User) {
@@ -23,5 +23,9 @@ export class UserService {
 
     delete(id: number) {
         return this.http.delete(`${config.apiUrl}/users/${id}`);
+    }
+
+    update(id: number, user: User){
+        return this.http.put<any>(`${config.apiUrl}/users/${id}`, user);
     }
 }

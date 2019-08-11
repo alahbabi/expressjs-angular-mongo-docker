@@ -1,29 +1,29 @@
 ﻿<div *ngIf="user">
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit(user._id)">
+    <form [formGroup]="userForm" (ngSubmit)="onUpdate(user._id)">
             <div class="form-group">
                 <label for="username">User name</label>
-                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  value={{user.username}}/>
+                <input type="text" [(ngModel)]="user.username" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  value={{user.username}}/>
                 <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                     <div *ngIf="f.username.errors.required">User name is required</div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="firstname">First name</label>
-                <input type="text" formControlName="firstname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstname.errors } " value={{user.firstname}}/>
+                <input type="text" [(ngModel)]="user.firstname" formControlName="firstname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstname.errors } " value={{user.firstname}}/>
                 <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
                     <div *ngIf="f.firstname.errors.required">First name is required</div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="lastname">Last name</label>
-                <input type="text" formControlName="lastname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }" value={{user.lastname}}/>
+                <input type="text" [(ngModel)]="user.lastname" formControlName="lastname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }" value={{user.lastname}}/>
                 <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
                     <div *ngIf="f.lastname.errors.required">Last name is required</div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" value={{user.email}}/>
+                <input type="text" [(ngModel)]="user.email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" value={{user.email}}/>
                 <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                     <div *ngIf="f.email.errors.required">Email is required</div>
                 </div>

@@ -6,17 +6,17 @@ const jwt = require('jsonwebtoken');
 // Login  
 exports.login = async function ({email, password}){
   try {
-        var user = await userModel.findOne({ email: email }).exec();
-        if (user && bcrypt.compareSync(password, user.password)) {
-          const token = jwt.sign({user}, config.secretKey, { expiresIn: '3600s' });
-          return {
-            user,
-            token
-          };
-        }
-    } catch (error) {
-        throw Error('Error login user  : ' + error.message);
-    }
+      var user = await userModel.findOne({ email: email }).exec();
+      if (user && bcrypt.compareSync(password, user.password)) {
+        const token = jwt.sign({user}, config.secretKey, { expiresIn: '3600s' });
+        return {
+          user,
+          token
+        };
+      }
+  } catch (error) {
+      throw Error('Error login user  : ' + error.message);
+  }
 };
 
 // Find all Users
@@ -57,7 +57,7 @@ exports.findById = async function(id){
 exports.update = async function(id, body){
     try {
       var user = await userModel.findById(id).exec();
-      if(user === undefined || user === null){
+      if(user === undefined || user === null) {
           throw Error('User not found with id ' + id);
       }
       user.set(body);

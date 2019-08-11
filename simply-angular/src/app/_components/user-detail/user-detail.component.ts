@@ -15,10 +15,14 @@ export class UserDetailComponent implements OnInit {
     @Input() user: User ;
     userForm: FormGroup;
     profiles = ['Collaborator', 'Manager' , 'Human resources'];
+    submitted = false;
+    loading = false;
 
     constructor(
         private formBuilder: FormBuilder,
-        private route: ActivatedRoute) {
+        private route: ActivatedRoute,
+        private userService: UserService,
+        private alertService: AlertService) {
     }
 
     ngOnInit() {
@@ -31,8 +35,26 @@ export class UserDetailComponent implements OnInit {
         });
     }
 
-    onSubmit(id: number){
-        console.log(id);
+    onUpdate(id: number){
+        this.submitted = true;
+
+        // reset alerts on submit
+        this.alertService.clear();
+
+        // stop here if form is invalid
+        if (this.userForm.invalid) {
+            return;
+        }
+        this.loading = true;
+        this.userService.update(id, this.userForm.value)
+            .subscribe(
+                response => {
+                    this.alertService.success(response.message, false);
+                }, error => {
+                    this.alertService.error(error);
+                }
+            );
+        this.loading = false;
     }
 
     // convenience getter for easy access to form fields
