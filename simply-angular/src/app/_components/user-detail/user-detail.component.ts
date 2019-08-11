@@ -17,6 +17,7 @@ export class UserDetailComponent implements OnInit {
     profiles = ['Collaborator', 'Manager' , 'Human resources'];
     submitted = false;
     loading = false;
+    users: any;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -49,6 +50,9 @@ export class UserDetailComponent implements OnInit {
         this.userService.update(id, this.userForm.value)
             .subscribe(
                 response => {
+                    this.userService.getAll().subscribe(response => {
+                        this.userService.usersSource.next(response.data);
+                    })
                     this.alertService.success(response.message, false);
                 }, error => {
                     this.alertService.error(error);
