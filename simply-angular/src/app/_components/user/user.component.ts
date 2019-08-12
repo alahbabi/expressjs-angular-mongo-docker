@@ -10,6 +10,7 @@ export class UserComponent implements OnInit {
     currentUser: User;
     users : any;
     user : User;
+    p: number = 1;
 
     constructor(
         private authenticationService: AuthenticationService,

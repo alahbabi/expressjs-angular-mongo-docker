@@ -1,7 +1,10 @@
 ﻿import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { appRoutingModule } from './app.routing';
 import { JwtInterceptor, ErrorInterceptor } from './shared/_helpers';
@@ -22,7 +25,10 @@ import { UserDetailComponent } from './_components/user-detail';
     imports: [
         BrowserModule,
         ReactiveFormsModule,
+        FormsModule,
         HttpClientModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
         appRoutingModule
     ],
     declarations: [

@@ -1,5 +1,8 @@
 ﻿<div class="row">
         <div class="col-sm-6" >
+                <div class="float-right" style="margin-bottom: 10px">
+                        <input type="text" placeholder="Search" [(ngModel)]="searchText" />
+                    </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -11,7 +14,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let user of users;let i = index">
+                    <tr *ngFor="let user of users | filter:searchText | paginate: {itemsPerPage: 5, currentPage: p};let i = index">
                         <td>{{user.username}}</td>
                         <td>{{user.profile}}</td>
                         <td>
@@ -32,6 +35,9 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="float-right">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
         </div>
         <div class="col-sm-6">
            <app-user-detail [user]="user"></app-user-detail>
