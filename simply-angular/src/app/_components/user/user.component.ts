@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 @Component({ templateUrl: 'user.component.html' })
 export class UserComponent implements OnInit {
-    currentUser: User;
+    currentUser: any;
     users : any;
     user : User;
     p: number = 1;

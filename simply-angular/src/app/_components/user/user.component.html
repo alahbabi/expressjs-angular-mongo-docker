@@ -23,7 +23,7 @@
                             </span>
                         </td> 
                         <td>
-                            <span class="table-remove">
+                            <span class="table-remove" *ngIf="currentUser.data.user.email != user.email">
                                 <button type="button"class="btn btn-danger btn-rounded btn-sm my-0" (click)="deleteUser(user._id)">Delete</button>
                             </span>
                         </td> 
