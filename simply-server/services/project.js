@@ -1,4 +1,5 @@
 const projectModel = require('../models/project');
+const userService = require('../services/user');
 
 // Find all projects
 exports.findAll = async function (){
@@ -13,7 +14,9 @@ exports.findAll = async function (){
   // Insert project
 exports.addProject = async function(body){
   try {
-    var project = new projectModel(body);
+    var project = new projectModel();
+    project.name = body.name;
+    project.owner = await userService.findById(body.owner);
     project.creationDate = new Date();
     var result = await project.save();
     return result;

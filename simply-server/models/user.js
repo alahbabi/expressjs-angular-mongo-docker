@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 //User model
-let User = new schema({
+let user = new Schema({
     username: {
       type: String,
       required: true,
@@ -33,15 +33,7 @@ let User = new schema({
       type: String,
       required: true,
       max: 30
-    },
-    tasks: [{ 
-      type: schema.Types.ObjectId,
-      ref: 'task'    
-    }],
-    projects: [{ 
-      type: schema.Types.ObjectId,
-      ref: 'project'    
-    }]
+    }
 });
 
-module.exports = mongoose.model('user', User);
+module.exports = mongoose.model('User', user);

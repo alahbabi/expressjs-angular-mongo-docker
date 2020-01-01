@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // Project model
 
-let Project = new schema ({
+let project = new Schema ({
     name: {
         type: String,
         required: true,
@@ -14,14 +14,10 @@ let Project = new schema ({
         required: true
     },
     owner: { 
-        type: schema.Types.ObjectId, 
-        ref: 'user',
+        type: Schema.Types.ObjectId, 
+        ref: 'User',
         required: true
-    },
-    collaborators : [{ 
-        type: schema.Types.ObjectId, 
-        ref: 'user' 
-    }]
+    }
 });
 
-module.exports = mongoose.model('project', Project);
+module.exports = mongoose.model('Project', project);

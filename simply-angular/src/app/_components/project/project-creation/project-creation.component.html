@@ -10,7 +10,7 @@
         <div class="form-group">
             <label for="owner">Owner</label>
             <select formControlName="owner" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.owner.errors }" > 
-                <option [value]="owner.username" *ngFor="let owner of owners"> {{owner.username}}</option>
+                <option [value]="owner._id" *ngFor="let owner of owners"> {{owner.username}}</option>
             </select>
             <div *ngIf="submitted && f.owner.errors" class="invalid-feedback">
                 <div *ngIf="f.owner.errors.required">Owner is required</div>

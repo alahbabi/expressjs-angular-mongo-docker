@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const schema = mongoose.Schema ;
+const Schema = mongoose.Schema ;
 
 // Task model
 
-let Comment = new schema ({
+let comment = new Schema ({
     title: {
         type: String,
         required: true,
@@ -20,15 +20,15 @@ let Comment = new schema ({
         required: true
     },
     owner: { 
-        type: schema.Types.ObjectId, 
-        ref: 'user',
+        type: Schema.Types.ObjectId, 
+        ref: 'User',
         required: true 
     },
     task: { 
-        type: schema.Types.ObjectId, 
-        ref: 'task',
+        type: Schema.Types.ObjectId, 
+        ref: 'Task',
         required: true 
     }
 });
 
-module.exports = mongoose.model('comment', Comment);
+module.exports = mongoose.model('Comment', comment);
