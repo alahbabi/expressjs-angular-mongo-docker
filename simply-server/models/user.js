@@ -33,7 +33,15 @@ let User = new schema({
       type: String,
       required: true,
       max: 30
-    }
+    },
+    tasks: [{ 
+      type: schema.Types.ObjectId,
+      ref: 'task'    
+    }],
+    projects: [{ 
+      type: schema.Types.ObjectId,
+      ref: 'project'    
+    }]
 });
 
 module.exports = mongoose.model('user', User);

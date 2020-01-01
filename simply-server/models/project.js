@@ -14,9 +14,9 @@ let Project = new schema ({
         required: true
     },
     owner: { 
-        type: String,
-        required: true,
-        max: 100
+        type: schema.Types.ObjectId, 
+        ref: 'user',
+        required: true
     },
     collaborators : [{ 
         type: schema.Types.ObjectId, 

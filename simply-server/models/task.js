@@ -17,9 +17,9 @@ let Task = new schema ({
         required: false
     },
     owner: { 
-        type: String,
-        required: true,
-        max: 100
+        type: schema.Types.ObjectId,
+        ref: 'user',
+        required: true   
     },
     project: {
         type: String,
@@ -27,9 +27,8 @@ let Task = new schema ({
         max: 50
     },
     assignee: { 
-        type: String,
-        required: true,
-        max: 100 
+        type: schema.Types.ObjectId,
+        ref: 'user'  
     },
     descirption: {
         type: String,
@@ -37,14 +36,12 @@ let Task = new schema ({
         max: 20
     },
     comments: [{ 
-        type: String,
-        required: true,
-        max: 200
+        type: schema.Types.ObjectId,
+        ref: 'comment'    
     }],
     participants: [{ 
-        type: String,
-        required: true,
-        max: 100
+        type: schema.Types.ObjectId,
+        ref: 'user'    
     }],
     priority: {
         type: String,
