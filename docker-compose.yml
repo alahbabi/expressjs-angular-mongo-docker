@@ -1,0 +1,19 @@
+version: "3.0"
+services:
+  mongoDB:
+    image: mongo
+    ports:
+      - "27017:27017"
+  simply-angular:
+    build: simply-angular
+    ports:
+      - "8080:8080"
+  simply-server:
+    build: simply-server
+    ports: 
+      - "3003:3003"
+    links:
+      - mongoDB
+    depends_on:
+      - mongoDB
+  

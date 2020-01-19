@@ -11,7 +11,11 @@ const cors = require('cors')
 
 var app = express();
 // Database conenction
-mongoose.connect("mongodb://localhost/orange");
+mongoose.connect("mongodb://mongoDB/orange").then(() => {
+  console.log("Connected to Database");
+}).catch((err) => {
+  console.log("Not Connected to Database ERROR! ", err);
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
