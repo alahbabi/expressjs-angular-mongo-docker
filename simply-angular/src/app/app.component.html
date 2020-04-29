@@ -1,8 +1,9 @@
-﻿<div class="container-fluid">
+﻿
+<div class="container-fluid">
   <div class="row d-flex d-md-block flex-nowrap wrapper">
       <div class="col-md-2 float-left col-1 pl-0 pr-0 collapse width show" id="sidebar" *ngIf="currentUser">
           <div class="list-group border-0 text-center text-md-left">
-              <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-dashboard"></i> <span class="d-none d-md-inline">KAIROS</span> </a>
+              <a href="#menu1" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fas fa-school"></i> <span class="d-none d-md-inline">KAIROS</span> </a>
               <div class="collapse" id="menu1" data-parent="#sidebar">
                   <a href="#menu1sub1" class="list-group-item" data-toggle="collapse" aria-expanded="false">Subitem 1 </a>
                   <div class="collapse" id="menu1sub1" data-parent="#menu1">
@@ -38,8 +39,8 @@
                   </div>
                   <a href="#" class="list-group-item">Subitem 3</a>
               </div>
-              <a href="#" class="list-group-item d-inline-block collapsed"><i class="fa fa-film"></i> <span class="d-none d-md-inline">Groups</span></a>
-              <a href="#menu3" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-book"></i> <span class="d-none d-md-inline">Planning</span></a>
+              <a (click)="planning()" class="list-group-item d-inline-block collapsed"><i class="fas fa-calendar"></i> <span class="d-none d-md-inline">Planning</span></a>
+              <a (click)="group()" class="list-group-item d-inline-block collapsed" data-toggle="collapse" aria-expanded="false"><i class="fa fa-users"></i> <span class="d-none d-md-inline">Groups</span></a>
               <div class="collapse" id="menu3" data-parent="#sidebar">
                   <a href="#" class="list-group-item" data-parent="#menu3">3.1</a>
                   <a href="#menu3sub2" class="list-group-item" data-toggle="collapse" aria-expanded="false">3.2 </a>
@@ -50,23 +51,25 @@
                   </div>
                   <a href="#" class="list-group-item" data-parent="#menu3">3.3</a>
               </div>
-              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-heart"></i> <span class="d-none d-md-inline">Messaging</span></a>
-              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-list"></i> <span class="d-none d-md-inline">Notifications</span></a>
-              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-clock-o"></i> <span class="d-none d-md-inline">Videotheque</span></a>
-              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-th"></i> <span class="d-none d-md-inline">Docs</span></a>
-              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-gear"></i> <span class="d-none d-md-inline">News</span></a>
-              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-calendar"></i> <span class="d-none d-md-inline">Bank</span></a>
-              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-envelope"></i> <span class="d-none d-md-inline">Analytics</span></a>
-              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-bar-chart-o"></i> <span class="d-none d-md-inline">Settings</span></a>
+              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fas fa-envelope"></i> <span class="d-none d-md-inline">Messaging</span></a>
+              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fas fa-bullhorn"></i> <span class="d-none d-md-inline">Notifications</span></a>
+              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fas fa-video"></i> <span class="d-none d-md-inline">Videotheque</span></a>
+              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fas fa-file-invoice"></i> <span class="d-none d-md-inline">Docs</span></a>
+              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="far fa-newspaper"></i><span class="d-none d-md-inline">News</span></a>
+              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fas fa-money-check-alt"></i> <span class="d-none d-md-inline">Bank</span></a>
+              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fas fa-chart-bar"></i><span class="d-none d-md-inline">Analytics</span></a>
+              <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fas fa-user-cog"></i><span class="d-none d-md-inline">Settings</span></a>
               <a href="#" class="list-group-item d-inline-block collapsed" data-parent="#sidebar"><i class="fa fa-star"></i> <span class="d-none d-md-inline">About us</span></a>
+              
           </div>
       </div>
-      <main class="col-md-9 float-left col px-5 pl-md-2 pt-2 main">
-          <a (click)="logout()">Logout</a>
-          <a href="#" data-target="#sidebar" data-toggle="collapse" *ngIf="currentUser"><i class="text-dark fa fa-navicon fa-lg py-2 p-1"></i></a>
+      <main>
+          <nav class="navbar navbar-light bg-light">
+            <a href="#" data-target="#sidebar" data-toggle="collapse" *ngIf="currentUser"><i class="text-dark fas fa-bars fa-lg py-2 p-1 navbar-brand" ></i></a>
+            <a (click)="logout()" *ngIf="currentUser"><i class="text-dark fas fa-power-off fa-lg py-2 p-1"></i></a>
+          </nav>
           <alert></alert>
           <router-outlet></router-outlet>
-          <hr>
       </main>
   </div>
 </div>

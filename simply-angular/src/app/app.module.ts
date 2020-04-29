@@ -20,6 +20,7 @@ import { ProjectCreationComponent } from './_components/project/project-creation
 import { ProjectListComponent } from './_components/project/project-list';
 import { ProjectDetailComponent } from './_components/project/project-detail';
 import { UserDetailComponent } from './_components/user-detail';
+import { GroupComponent } from './_components/group';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { UserDetailComponent } from './_components/user-detail';
         TaskDetailComponent,
         ProjectCreationComponent,
         ProjectListComponent,
-        ProjectDetailComponent
+        ProjectDetailComponent,
+        GroupComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

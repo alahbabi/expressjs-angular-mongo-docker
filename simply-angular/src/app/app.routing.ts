@@ -9,8 +9,10 @@ import { TaskListComponent } from './_components/task/task-list';
 import { ProjectCreationComponent } from './_components/project/project-creation';
 import { ProjectListComponent } from './_components/project/project-list';
 import { UserDetailComponent } from './_components/user-detail';
+import { GroupComponent } from './_components/group';
 
 const routes: Routes = [
+    { path: 'group', component: GroupComponent, canActivate: [AuthGuard] },
     { path: '', component: UserComponent, canActivate: [AuthGuard], 
         children: [
             { path: 'user-detail', component: UserDetailComponent},
