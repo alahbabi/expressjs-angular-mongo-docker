@@ -8,5 +8,6 @@ router.get('/:id', group_controller.findById);
 router.get('/owner/:owner', group_controller.findAllByOwner);
 router.put('/:id', group_controller.update);
 router.delete('/:id', group_controller.delete);
+router.post('/invit', group_controller.sendInvitation);
 
 module.exports = router;

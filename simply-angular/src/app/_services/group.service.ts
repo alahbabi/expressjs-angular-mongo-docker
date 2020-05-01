@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Group } from '@/_models';
+import { Group, User } from '@/_models';
 
 @Injectable({ providedIn: 'root' })
 export class GroupService {
@@ -21,5 +21,9 @@ export class GroupService {
 
     delete(id: number) {
         return this.http.delete(`${config.apiUrl}/groups/${id}`);
+    }
+
+    sendInvitation(user: User , email: String, idGroup: number) {
+        return this.http.post(`${config.apiUrl}/groups/invit`, {'user': user, 'email': email, 'idGroup': idGroup});
     }
 }

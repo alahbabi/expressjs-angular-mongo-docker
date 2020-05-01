@@ -1,4 +1,5 @@
 const groupService = require('../services/group');
+const mailService = require('../services/mail')
 
 // Find all Groups
 exports.findAll = async function (request, response, next) {
@@ -100,6 +101,24 @@ exports.delete = async function (request, response, next) {
         status: 200,
         data: group,
         message: "Succesfully group deleted"
+      });
+  } catch (error) {
+      return response.status(400).json({
+        status: 400,
+        message: error.message
+      });
+  }
+};
+
+// Find group by id
+exports.sendInvitation = async function (request, response, next) {
+  
+  try {
+      console.log(request.body);
+      mailService.sendInvitation(request.body.user,request.body.email,request.body.idGroup);
+      return response.status(200).json({
+        status: 200,
+        message: "Invitation sended"
       });
   } catch (error) {
       return response.status(400).json({

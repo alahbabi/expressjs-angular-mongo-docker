@@ -38,9 +38,7 @@ exports.findById = async function(id){
 // Find groups by owner
 exports.findAllByOwner = async function(ownerId){
   try {
-    console.log(ownerId);
     var groups = await groupModel.find({'owner' : ownerId})
-    console.log(groups)
     return groups;
   } catch (error) {
       throw Error('Error while Finding group By Id : ' + error.message);

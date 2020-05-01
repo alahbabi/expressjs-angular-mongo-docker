@@ -1,7 +1,7 @@
 ﻿<div class="row">
   <div class="col-sm-3">
       <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
+          <div class="form-group mr-3">
               <input type="text" formControlName="name" class="form-control" placeholder="Group name" />
           </div>
 
@@ -11,40 +11,39 @@
               </button>
           </div>
       </form>
+
+      <div class="form-group mt-3">
+        <input type="text" placeholder="Search group" class="form-control" [(ngModel)]="searchText" />
+    </div>
+    <div class="my-custom-scrollbar">
+        <table class="table table-bordered table-striped mb-0">
+            <tbody>
+                <tr *ngFor="let group of groups | filter:searchText">
+                    <td>{{group.name}}</td>
+                    <td><span (click)="studentSearchDiv(group._id)"><i class="fas fa-user-plus"></i></span></td>
+                    <td><i class="fas fa-users"></i></td>
+                    <td><span (click)="deleteGroup(group._id)"><i class="fas fa-trash-alt"></i></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <form [formGroup]="invitForm" >
+      <div *ngIf="studentSearch && groups.length > 0">
+        <div class="form-group mt-3">
+          <input type="text" placeholder="Student" class="form-control" formControlName="email" />
+        </div>
+        <div class="btn-toolbar pull-right">
+          <button [disabled]="loading" class="btn btn-black mr-1" (click)="sendInvitation()">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-4"></span> Send
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
 
   <div class="col-sm-3">
 
-      <div class="form-group">
-          <input type="text" placeholder="Search group" class="form-control" [(ngModel)]="searchText" />
-      </div>
-      <div class="my-custom-scrollbar">
-          <table class="table table-bordered table-striped mb-0">
-              <tbody>
-                  <tr *ngFor="let group of groups | filter:searchText" class="clickable-row">
-                      <td>{{group.name}}</td>
-                      <td><input type="radio" id='regular' name="optradio"></td>
-                  </tr>
-              </tbody>
-          </table>
-      </div>
-      <table class="table table-bordered">
-          <tr>
-              <td><span (click)="studentSearchDiv()"><i class="fas fa-user-plus"></i></span></td>
-              <td><i class="fas fa-users"></i></td>
-              <td><i class="fas fa-trash-alt"></i></td>
-          </tr>
-      </table>
-      <div *ngIf="studentSearch">
-        <div class="form-group">
-          <input type="text" placeholder="Search student" class="form-control" [(ngModel)]="searchText" />
-        </div>
-        <div class="btn-toolbar pull-right">
-          <button [disabled]="loading" class="btn btn-black" type="submit">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-4"></span> Search
-          </button>
-      </div>
-      </div>
-
+     
+      
   </div>
 </div>
