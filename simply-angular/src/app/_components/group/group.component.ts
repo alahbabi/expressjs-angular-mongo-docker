@@ -8,10 +8,13 @@ import { User, Group } from '@/_models';
 @Component({ templateUrl: 'group.component.html' })
 export class GroupComponent implements OnInit {
     groupForm: FormGroup;
+    groups : any;
     loading = false;
     submitted = false;
     returnUrl: string;
     currentUser: any;
+    p: number = 1;
+    studentSearch:boolean=false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -27,6 +30,7 @@ export class GroupComponent implements OnInit {
     get f() { return this.groupForm.controls; }
 
     ngOnInit() {
+        this.loadAllGroupsByCurrentUser();
         this.groupForm = this.formBuilder.group({
             name: ['', Validators.required]
         });
@@ -42,8 +46,6 @@ export class GroupComponent implements OnInit {
         if (this.groupForm.invalid) {
             return;
         }
-        console.log("valid")
-
 
         this.loading = true;
 
@@ -54,10 +56,36 @@ export class GroupComponent implements OnInit {
                 data => {
                     this.alertService.success('Group added successful', true);
                     this.loading = false;
+                    this.loadAllGroupsByCurrentUser();
                 },
                 error => {
                     this.alertService.error(error);
                     this.loading = false;
                 });
+    }
+
+    private loadAllGroupsByCurrentUser() {
+        this.groupService.findAllByOwner(this.currentUser.data.user._id)
+            .subscribe(
+                response => {
+                    this.groups = response.data;
+                    console.log(this.groups);
+                },
+                error => {
+                    this.alertService.error(error);
+                }
+            );
+    }
+
+    
+
+
+    studentSearchDiv(){
+        if(this.studentSearch){
+            this.studentSearch=false;
+        }else {
+            this.studentSearch=true;
+        }
+
     }
 }

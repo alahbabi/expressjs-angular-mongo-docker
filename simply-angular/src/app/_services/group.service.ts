@@ -15,6 +15,10 @@ export class GroupService {
         return this.http.get<any>(`${config.apiUrl}/groups`);
     }
 
+    findAllByOwner(owner: String) {
+        return this.http.get<any>(`${config.apiUrl}/groups/owner/${owner}`);
+    }
+
     delete(id: number) {
         return this.http.delete(`${config.apiUrl}/groups/${id}`);
     }

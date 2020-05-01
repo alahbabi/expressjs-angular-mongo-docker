@@ -23,7 +23,6 @@ exports.findAll = async function (request, response, next) {
 exports.addGroup = async function (request, response, next) {
   // TODO: Validation of parameters ...
   try {
-      console.log(request.body)
       var group = await groupService.addGroup(request.body);
       return response.status(200).json({
         status: 200,
@@ -47,6 +46,24 @@ exports.findById = async function (request, response, next) {
         status: 200,
         data: group,
         message: "Succesfully group Retrieved"
+      });
+  } catch (error) {
+      return response.status(400).json({
+        status: 400,
+        message: error.message
+      });
+  }
+};
+
+// Find group by id
+exports.findAllByOwner = async function (request, response, next) {
+  // TODO: Validation of parameters ...
+  try {
+      var groups = await groupService.findAllByOwner(request.params.owner);
+      return response.status(200).json({
+        status: 200,
+        data: groups,
+        message: "Succesfully groups Retrieved"
       });
   } catch (error) {
       return response.status(400).json({
