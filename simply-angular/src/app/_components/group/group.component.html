@@ -1,5 +1,5 @@
 ﻿<div class="row">
-  <div class="col-sm-3">
+  <div class="col-sm-3 ml-2 mt-3">
       <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
           <div class="form-group mr-3">
               <input type="text" formControlName="name" class="form-control" placeholder="Group name" />
@@ -33,9 +33,12 @@
           <input type="text" placeholder="Student" class="form-control" formControlName="email" />
         </div>
         <div class="btn-toolbar pull-right">
-          <button [disabled]="loading" class="btn btn-black mr-1" (click)="sendInvitation()">
+          <button [disabled]="loading" class="btn btn-black mr-5" (click)="sendInvitation()">
               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-4"></span> Send
           </button>
+          <button [disabled]="loading" class="btn btn-black mr-1" (click)="addToGroup()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-4"></span> Add to group
+        </button>
         </div>
       </div>
     </form>

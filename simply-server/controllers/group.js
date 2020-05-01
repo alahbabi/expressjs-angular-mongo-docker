@@ -93,6 +93,24 @@ exports.update = async function (request, response, next) {
 }
 
 // Modify group using his Id
+exports.addToGroup = async function (request, response, next) {
+  // TODO: Validation of parameters ...
+  try {
+      var group = await groupService.addToGroup(request.body.email,request.body.idGroup);
+      return response.status(200).json({
+        status: 200,
+        data: group,
+        message: "Succesfully group Modified"
+      });
+  } catch (error) {
+      return response.status(400).json({
+        status: 400,
+        message: error.message
+      });
+  }
+}
+
+// Modify group using his Id
 exports.delete = async function (request, response, next) {
   // TODO: Validation of parameters ...
   try {
@@ -114,7 +132,6 @@ exports.delete = async function (request, response, next) {
 exports.sendInvitation = async function (request, response, next) {
   
   try {
-      console.log(request.body);
       mailService.sendInvitation(request.body.user,request.body.email,request.body.idGroup);
       return response.status(200).json({
         status: 200,

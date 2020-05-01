@@ -8,15 +8,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="owner">Owner</label>
-            <select formControlName="owner" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.owner.errors }" > 
-                <option [value]="owner._id" *ngFor="let owner of owners"> {{owner.username}}</option>
-            </select>
-            <div *ngIf="submitted && f.owner.errors" class="invalid-feedback">
-                <div *ngIf="f.owner.errors.required">Owner is required</div>
-            </div>
-        </div>
-        <div class="form-group">
             <button [disabled]="loading" class="btn btn-primary">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 Create

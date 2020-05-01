@@ -36,6 +36,7 @@ exports.addUser = async function(body){
     const hashedPassword = await bcrypt.hash(body.password, salt);
     body.password = hashedPassword;
     var user = new userModel(body);
+    user.creationDate = new Date();
     var result = await user.save();
     return result;
   } catch (error) {
@@ -50,6 +51,16 @@ exports.findById = async function(id){
     return user;
   } catch (error) {
       throw Error('Error while Finding User By Id : ' + error.message);
+  }
+};
+
+// Find user by Email
+exports.findByEmail = async function(email){
+  try {
+    var user = await userModel.findOne({ email: email }).exec();
+    return user;
+  } catch (error) {
+      throw Error('Error while Finding User By Email : ' + error.message);
   }
 };
 

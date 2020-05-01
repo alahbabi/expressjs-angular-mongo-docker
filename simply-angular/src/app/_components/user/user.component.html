@@ -15,7 +15,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let user of users | filter:searchText | paginate: {itemsPerPage: 5, currentPage: p};let i = index">
-                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
                         <td>{{user.profile}}</td>
                         <td>
                             <span>

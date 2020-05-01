@@ -42,6 +42,19 @@ export class GroupComponent implements OnInit {
         });
     }
 
+    addToGroup(){
+        this.groupService.addToGroup(this.i.email.value, this.idGroup)
+        .pipe(first())
+        .subscribe(
+            (response: any) => {
+                console.log(response.data);
+            },
+            error => {
+                this.alertService.error(error);
+            }
+        );
+    }
+
     onSubmit() {
         this.submitted = true;
 

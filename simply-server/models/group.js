@@ -18,7 +18,7 @@ let group = new Schema({
     ref: "User",
     required: true,
   },
-  users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  students: [{ type: Schema.Types.ObjectId, ref: "User" }],
 });
 
 module.exports = mongoose.model("Group", group);

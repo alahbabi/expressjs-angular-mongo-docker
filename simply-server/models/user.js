@@ -24,11 +24,17 @@ let user = new Schema({
     required: true,
     max: 80,
   },
-  profile: {
+  creationDate: {
+    type: Date,
+    required: true,
+  },
+  profile: { 
     type: String,
     required: true,
-    max: 30,
-  },
+   },
+   picture: {
+    type: String
+   }
 });
 
 module.exports = mongoose.model("User", user);

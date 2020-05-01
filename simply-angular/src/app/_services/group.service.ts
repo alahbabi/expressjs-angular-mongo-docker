@@ -26,4 +26,8 @@ export class GroupService {
     sendInvitation(user: User , email: String, idGroup: number) {
         return this.http.post(`${config.apiUrl}/groups/invit`, {'user': user, 'email': email, 'idGroup': idGroup});
     }
+
+    addToGroup(email: String, idGroup: number) {
+        return this.http.post(`${config.apiUrl}/groups/add`, {'email': email, 'idGroup': idGroup});
+    }
 }

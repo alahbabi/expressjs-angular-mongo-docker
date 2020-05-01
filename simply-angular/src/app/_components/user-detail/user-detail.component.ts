@@ -14,7 +14,7 @@ export class UserDetailComponent implements OnInit {
 
     @Input() user: User ;
     userForm: FormGroup;
-    profiles = ['Collaborator', 'Manager' , 'Human resources'];
+    profiles = ['Student', 'Teacher'];
     submitted = false;
     loading = false;
     users: any;
@@ -28,7 +28,6 @@ export class UserDetailComponent implements OnInit {
 
     ngOnInit() {
         this.userForm = this.formBuilder.group({
-            username : ['', Validators.required],
             firstname: ['', Validators.required],
             lastname: ['', Validators.required],
             email: ['', Validators.required],

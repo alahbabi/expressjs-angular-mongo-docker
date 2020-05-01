@@ -10,7 +10,7 @@ export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
-    profiles = ['Collaborator', 'Manager' , 'Human resources'];
+    profiles = ['Student', 'Teacher'];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -27,7 +27,6 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
-            username : ['', Validators.required],
             firstname: ['', Validators.required],
             lastname: ['', Validators.required],
             email: ['', Validators.required],

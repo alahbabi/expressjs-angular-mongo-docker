@@ -3,7 +3,6 @@ const nodeMailer = require('nodemailer');
 // Find all groups
 exports.sendInvitation = async function (user, receiverEmail, group){
     try {
-        console.log('In service');
         let transporter = nodeMailer.createTransport({
             host: 'smtp.ethereal.email',
             port: 587,

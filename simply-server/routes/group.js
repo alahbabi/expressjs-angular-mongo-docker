@@ -9,5 +9,6 @@ router.get('/owner/:owner', group_controller.findAllByOwner);
 router.put('/:id', group_controller.update);
 router.delete('/:id', group_controller.delete);
 router.post('/invit', group_controller.sendInvitation);
+router.post('/add', group_controller.addToGroup);
 
 module.exports = router;
