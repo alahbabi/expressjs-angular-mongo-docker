@@ -1,14 +1,14 @@
-const projectService = require('../services/project');
+const groupService = require('../services/group');
 
-// Find all Projects
+// Find all Groups
 exports.findAll = async function (request, response, next) {
     // TODO: Validation of parameters ...
     try {
-        var projects = await projectService.findAll();
+        var groups = await groupService.findAll();
         return response.status(200).json({
           status: 200,
-          data: projects,
-          message: "Succesfully projects Retrieved"
+          data: groups,
+          message: "Succesfully groups Retrieved"
         });
     } catch (error) {
         return response.status(400).json({
@@ -19,15 +19,16 @@ exports.findAll = async function (request, response, next) {
 };
 
 
-// Insert project
-exports.addProject = async function (request, response, next) {
+// Insert group
+exports.addGroup = async function (request, response, next) {
   // TODO: Validation of parameters ...
   try {
-      var project = await projectService.addProject(request.body);
+      console.log(request.body)
+      var group = await groupService.addGroup(request.body);
       return response.status(200).json({
         status: 200,
-        data: project,
-        message: "Succesfully project Inserted"
+        data: group,
+        message: "Succesfully group Inserted"
       });
   } catch (error) {
       return response.status(403).json({
@@ -37,15 +38,15 @@ exports.addProject = async function (request, response, next) {
   }
 };
 
-// Find project by id
+// Find group by id
 exports.findById = async function (request, response, next) {
   // TODO: Validation of parameters ...
   try {
-      var project = await projectService.findById(request.params.id);
+      var group = await groupService.findById(request.params.id);
       return response.status(200).json({
         status: 200,
-        data: project,
-        message: "Succesfully project Retrieved"
+        data: group,
+        message: "Succesfully group Retrieved"
       });
   } catch (error) {
       return response.status(400).json({
@@ -55,15 +56,15 @@ exports.findById = async function (request, response, next) {
   }
 };
 
-// Modify project using his Id
+// Modify group using his Id
 exports.update = async function (request, response, next) {
   // TODO: Validation of parameters ...
   try {
-      var project = await projectService.update(request.params.id, request.body);
+      var group = await groupService.update(request.params.id, request.body);
       return response.status(200).json({
         status: 200,
-        data: project,
-        message: "Succesfully project Modified"
+        data: group,
+        message: "Succesfully group Modified"
       });
   } catch (error) {
       return response.status(400).json({
@@ -73,15 +74,15 @@ exports.update = async function (request, response, next) {
   }
 }
 
-// Modify project using his Id
+// Modify group using his Id
 exports.delete = async function (request, response, next) {
   // TODO: Validation of parameters ...
   try {
-      var project = await projectService.delete(request.params.id);
+      var group = await groupService.delete(request.params.id);
       return response.status(200).json({
         status: 200,
-        data: project,
-        message: "Succesfully project deleted"
+        data: group,
+        message: "Succesfully group deleted"
       });
   } catch (error) {
       return response.status(400).json({

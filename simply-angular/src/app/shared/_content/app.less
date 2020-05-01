@@ -1,34 +1,34 @@
 // global application styles
 a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #sidebar {
-    overflow: hidden;
-    z-index: 3;
+  overflow: hidden;
+  z-index: 3;
 }
 #sidebar .list-group {
-    min-width: 400px;
-    background-color: #333;
-    min-height: 100vh;
+  min-width: 400px;
+  background-color: #333;
+  min-height: 100vh;
 }
 #sidebar i {
-    margin-right: 6px;
+  margin-right: 6px;
 }
 
 #sidebar .list-group-item {
-    border-radius: 0;
-    background-color: #333;
-    color: #ccc;
-    border-left: 0;
-    border-right: 0;
-    border-color: #2c2c2c;
-    white-space: nowrap;
+  border-radius: 0;
+  background-color: #333;
+  color: #ccc;
+  border-left: 0;
+  border-right: 0;
+  border-color: #2c2c2c;
+  white-space: nowrap;
 }
 
 /* highlight active menu */
 #sidebar .list-group-item:not(.collapsed) {
-    background-color: #222;
+  background-color: #222;
 }
 
 /* closed state */
@@ -46,7 +46,7 @@ a {
 }
 #sidebar .list-group .list-group-item[aria-expanded="true"]::after {
   content: “\f099”;
-font-family: Font Awesome\ 5 Free;
+  font-family: Font Awesome\5 Free;
   display: inline;
   text-align: right;
   padding-left: 5px;
@@ -54,7 +54,7 @@ font-family: Font Awesome\ 5 Free;
 
 /* level 1*/
 #sidebar .list-group .collapse .list-group-item,
-#sidebar .list-group .collapsing .list-group-item  {
+#sidebar .list-group .collapsing .list-group-item {
   padding-left: 20px;
 }
 
@@ -69,43 +69,47 @@ font-family: Font Awesome\ 5 Free;
   padding-left: 40px;
 }
 
-@media (max-width:768px) {
-    #sidebar {
-        min-width: 35px;
-        max-width: 40px;
-        overflow-y: auto;
-        overflow-x: visible;
-        transition: all 0.25s ease;
-        transform: translateX(-45px);
-        position: fixed;
-    }
-    
-    #sidebar.show {
-        transform: translateX(0);
-    }
+@media (max-width: 768px) {
+  #sidebar {
+    min-width: 35px;
+    max-width: 40px;
+    overflow-y: auto;
+    overflow-x: visible;
+    transition: all 0.25s ease;
+    transform: translateX(-45px);
+    position: fixed;
+  }
 
-    #sidebar::-webkit-scrollbar{ width: 0px; }
-    
-    #sidebar, #sidebar .list-group {
-        min-width: 1px;
-        overflow: visible;
-    }
-    /* overlay sub levels on small screens */
-    #sidebar .list-group .collapse.show, #sidebar .list-group .collapsing {
-        position: relative;
-        z-index: 1;
-        width: 190px;
-        top: 0;
-    }
-    #sidebar .list-group > .list-group-item {
-        text-align: center;
-        padding: .75rem .5rem;
-    }
-    /* hide caret icons of top level when collapsed */
-    #sidebar .list-group > .list-group-item[aria-expanded="true"]::after,
-    #sidebar .list-group > .list-group-item[aria-expanded="false"]::after {
-        display:none;
-    }
+  #sidebar.show {
+    transform: translateX(0);
+  }
+
+  #sidebar::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  #sidebar,
+  #sidebar .list-group {
+    min-width: 1px;
+    overflow: visible;
+  }
+  /* overlay sub levels on small screens */
+  #sidebar .list-group .collapse.show,
+  #sidebar .list-group .collapsing {
+    position: relative;
+    z-index: 1;
+    width: 190px;
+    top: 0;
+  }
+  #sidebar .list-group > .list-group-item {
+    text-align: center;
+    padding: 0.75rem 0.5rem;
+  }
+  /* hide caret icons of top level when collapsed */
+  #sidebar .list-group > .list-group-item[aria-expanded="true"]::after,
+  #sidebar .list-group > .list-group-item[aria-expanded="false"]::after {
+    display: none;
+  }
 }
 
 .collapse.show {
@@ -126,4 +130,34 @@ font-family: Font Awesome\ 5 Free;
   height: 100%;
   -webkit-transition-timing-function: ease-out;
   transition-timing-function: ease-out;
+}
+
+.sidenav {
+  height: 100%;
+  background-color: #000;
+  overflow-x: hidden;
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    margin-left: 50%;
+  }
+
+  .sidenav {
+    width: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}
+
+.login-main-text {
+  margin-top: 20%;
+  padding: 60px;
+  color: #fff;
+}
+
+.btn-black {
+  background-color: #000 !important;
+  color: #fff;
 }

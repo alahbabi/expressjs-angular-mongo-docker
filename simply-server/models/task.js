@@ -21,7 +21,7 @@ let task = new Schema ({
         ref: 'User',
         required: true   
     },
-    project: {
+    group: {
         type: String,
         required: true,
         max: 50
