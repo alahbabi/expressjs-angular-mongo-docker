@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService, AlertService, GroupService, UserService } from '@/_services';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
-import { User, Group } from '@/_models';
+import { User } from '@/_models';
 
 @Component({ templateUrl: 'group.component.html' })
 export class GroupComponent implements OnInit {
@@ -20,12 +20,17 @@ export class GroupComponent implements OnInit {
     students:any;
     user: User;
 
+    options = {
+        autoClose: true,
+        keepAfterRouteChange: false
+    };
+
     constructor(
         private formBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService,
         private groupService: GroupService,
-        private userService : UserService
+        private userService : UserService,
+        protected alertService: AlertService
     ) {
         this.currentUser = this.authenticationService.currentUserValue;
     }
@@ -52,7 +57,7 @@ export class GroupComponent implements OnInit {
                 this.getAllUsersByGroupId(this.idGroup);
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error(error, this.options);
             }
         );
     }
