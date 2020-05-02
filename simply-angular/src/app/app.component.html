@@ -63,14 +63,12 @@
               
           </div>
       </div>
-      <main>
           <nav class="navbar navbar-light bg-light">
             <a href="#" data-target="#sidebar" data-toggle="collapse" *ngIf="currentUser"><i class="text-dark fas fa-bars fa-lg py-2 p-1 navbar-brand" ></i></a>
             <a (click)="logout()" *ngIf="currentUser"><i class="text-dark fas fa-power-off fa-lg py-2 p-1"></i></a>
           </nav>
           <alert></alert>
           <router-outlet></router-outlet>
-      </main>
   </div>
 </div>
   

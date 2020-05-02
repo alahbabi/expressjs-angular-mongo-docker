@@ -1,5 +1,5 @@
 ﻿<div class="row">
-  <div class="col-sm-3 ml-2 mt-2">
+  <div class="col-sm-3 mt-2">
       <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
           <div class="input-group">
             <input type="text" formControlName="name" class="form-control" placeholder="Group name" />
@@ -25,7 +25,7 @@
       </div>
   </div>
 
-  <div class="col-sm-4 mt-2">
+  <div class="col-sm-6 mt-2">
       <form [formGroup]="invitForm">
           <div *ngIf="groups.length > 0">
             <div class="input-group">
