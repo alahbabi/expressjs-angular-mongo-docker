@@ -34,7 +34,9 @@ let user = new Schema({
    },
    picture: {
     type: String
-   }
+   },
+   groups: [{ type: Schema.Types.ObjectId, ref: 'Group' }]
+
 });
 
 module.exports = mongoose.model("User", user);

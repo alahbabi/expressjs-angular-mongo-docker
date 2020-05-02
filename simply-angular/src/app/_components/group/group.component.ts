@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService, AlertService, GroupService } from '@/_services';
+import { AuthenticationService, AlertService, GroupService, UserService } from '@/_services';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { User, Group } from '@/_models';
@@ -17,13 +17,15 @@ export class GroupComponent implements OnInit {
     p: number = 1;
     idGroup: number;
     studentSearch:boolean=false;
+    students:any;
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
-        private groupService: GroupService
+        private groupService: GroupService,
+        private userService : UserService
     ) {
         this.currentUser = this.authenticationService.currentUserValue;
     }
@@ -47,7 +49,7 @@ export class GroupComponent implements OnInit {
         .pipe(first())
         .subscribe(
             (response: any) => {
-                console.log(response.data);
+                this.getAllUsersByGroupId(this.idGroup);
             },
             error => {
                 this.alertService.error(error);
@@ -90,10 +92,21 @@ export class GroupComponent implements OnInit {
     }
 
     sendInvitation() {
-        console.log(this.i.email.value);
-        console.log(this.idGroup);
         this.groupService.sendInvitation(this.currentUser.data.user, this.i.email.value, this.idGroup)
             .subscribe(() => this.loadAllGroupsByCurrentUser());
+    }
+
+    getAllUsersByGroupId(id : number) {
+        this.idGroup = id ;
+        this.userService.findAllByGroudId(id)
+            .subscribe(
+                response => {
+                    this.students = response.data;
+                    console.log(response.data);
+                },error => {
+                    this.alertService.error(error);
+                }
+            );
     }
 
     private loadAllGroupsByCurrentUser() {
@@ -101,21 +114,10 @@ export class GroupComponent implements OnInit {
             .subscribe(
                 response => {
                     this.groups = response.data;
-                    console.log(this.groups);
                 },
                 error => {
                     this.alertService.error(error);
                 }
             );
-    }
-
-    studentSearchDiv(id: number){
-        if(this.studentSearch){
-            this.studentSearch=false;
-        }else {
-            this.idGroup = id ;
-            this.studentSearch=true;
-        }
-
     }
 }

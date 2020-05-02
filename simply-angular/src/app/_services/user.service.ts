@@ -19,6 +19,10 @@ export class UserService {
         return this.http.get<any>(`${config.apiUrl}/users`);
     }
 
+    findAllByGroudId(idGroup: number) {
+        return this.http.get<any>(`${config.apiUrl}/users/group/${idGroup}`);
+    }
+
     getUserById(id: number) {
         return this.http.get<any>(`${config.apiUrl}/users/${id}`);
     }

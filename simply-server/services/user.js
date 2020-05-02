@@ -54,6 +54,17 @@ exports.findById = async function(id){
   }
 };
 
+
+exports.findByGroupId = async function(groupId) {
+  try {
+    var users = await userModel.find({ groups : groupId }).exec();
+    console.log(users);
+    return users;
+  } catch (error) {
+      throw Error('Error while Finding Users By GroupId : ' + error.message);
+  }
+}
+
 // Find user by Email
 exports.findByEmail = async function(email){
   try {

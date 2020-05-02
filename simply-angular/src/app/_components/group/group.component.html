@@ -1,52 +1,54 @@
 ﻿<div class="row">
-  <div class="col-sm-3 ml-2 mt-3">
+  <div class="col-sm-3 ml-2 mt-2">
       <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
-          <div class="form-group mr-3">
-              <input type="text" formControlName="name" class="form-control" placeholder="Group name" />
-          </div>
-
-          <div class="btn-toolbar pull-right">
-              <button [disabled]="loading" class="btn btn-black" type="submit">
-                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-4"></span> Create
-              </button>
+          <div class="input-group">
+            <input type="text" formControlName="name" class="form-control" placeholder="Group name" />
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">Create</button>
+            </div>
           </div>
       </form>
 
-      <div class="form-group mt-3">
-        <input type="text" placeholder="Search group" class="form-control" [(ngModel)]="searchText" />
-    </div>
-    <div class="my-custom-scrollbar">
-        <table class="table table-bordered table-striped mb-0">
-            <tbody>
-                <tr *ngFor="let group of groups | filter:searchText">
-                    <td>{{group.name}}</td>
-                    <td><span (click)="studentSearchDiv(group._id)"><i class="fas fa-user-plus"></i></span></td>
-                    <td><i class="fas fa-users"></i></td>
-                    <td><span (click)="deleteGroup(group._id)"><i class="fas fa-trash-alt"></i></span></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <form [formGroup]="invitForm" >
-      <div *ngIf="studentSearch && groups.length > 0">
-        <div class="form-group mt-3">
-          <input type="text" placeholder="Student" class="form-control" formControlName="email" />
-        </div>
-        <div class="btn-toolbar pull-right">
-          <button [disabled]="loading" class="btn btn-black mr-5" (click)="sendInvitation()">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-4"></span> Send
-          </button>
-          <button [disabled]="loading" class="btn btn-black mr-1" (click)="addToGroup()">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-4"></span> Add to group
-        </button>
-        </div>
+      <div class="form-group mt-2">
+          <input type="text" placeholder="Search group" class="form-control" [(ngModel)]="searchText" />
       </div>
-    </form>
+      <div class="my-custom-scrollbar">
+          <table class="table table-bordered table-striped mb-0">
+              <tbody>
+                  <tr *ngFor="let group of groups | filter:searchText">
+                      <td>{{group.name}}</td>
+                      <td><span (click)="getAllUsersByGroupId(group._id)"><i class="fas fa-users"></i></span></td>
+                      <td><span (click)="deleteGroup(group._id)"><i class="fas fa-trash-alt"></i></span></td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
   </div>
 
-  <div class="col-sm-3">
+  <div class="col-sm-4 mt-2">
+      <form [formGroup]="invitForm">
+          <div *ngIf="groups.length > 0">
+            <div class="input-group">
+              <input type="text" class="form-control" formControlName="email" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" (click)="addToGroup()">Send</button>
+              </div>
+            </div>
+          </div>
+      </form>
+      <table class="table table-striped mt-2">
+          <tbody>
+              <tr *ngFor="let student of students">
+                  <td><img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-12.jpg" class="rounded-circle z-depth-0" alt="avatar image" height="30" /></td>
+                  <td><a><span (click)="studentDetail(student._id)">{{student.firstname}} {{student.lastname}}</span></a></td>
+                  <td><i class="fas fa-info-circle"></i></td>
+                  <td><i class="fas fa-user-minus"></i></td>
+              </tr>
+          </tbody>
+      </table>
 
-     
-      
+      <div class="col-sm-3 mt-2">
+        
+      </div>
   </div>
 </div>

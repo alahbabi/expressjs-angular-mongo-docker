@@ -75,6 +75,24 @@ exports.findById = async function (request, response, next) {
     }
 };
 
+// Find users by id
+exports.findByGroupId = async function (request, response, next) {
+  // TODO: Validation of parameters ...
+  try {
+      var user = await userService.findByGroupId(request.params.id);
+      return response.status(200).json({
+        status: 200,
+        data: user,
+        message: "Succesfully Users Retrieved"
+      });
+  } catch (error) {
+      return response.status(400).json({
+        status: 400,
+        message: error.message
+      });
+  }
+};
+
 // Modify user using his Id
 exports.update = async function (request, response, next) {
     // TODO: Validation of parameters ...

@@ -70,6 +70,8 @@ exports.addToGroup = async function (email, idGroup) {
     if (student === undefined || student === null) {
       throw Error("student not found with email " + email);
     }
+    student.groups.push(idGroup);
+    await student.save();
     group.students.push(student);
     var savedGroup = await group.save();
     return savedGroup;

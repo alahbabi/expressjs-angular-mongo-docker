@@ -51,8 +51,7 @@ export class UserComponent implements OnInit {
         this.userService.getAll()
             .subscribe(
                 response => {
-                    this.users = response.data;
-                    this.userService.usersSource.next(this.users);
+                    this.userService.usersSource.next(response.data);
                 },
                 error => {
                     this.alertService.error(error);
