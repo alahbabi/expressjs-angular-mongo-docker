@@ -18,10 +18,10 @@ export class GroupComponent implements OnInit {
     idGroup: number;
     studentSearch:boolean=false;
     students:any;
+    user: User;
 
     constructor(
         private formBuilder: FormBuilder,
-        private router: Router,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
         private groupService: GroupService,
@@ -119,5 +119,17 @@ export class GroupComponent implements OnInit {
                     this.alertService.error(error);
                 }
             );
+    }
+
+    userInfo(id: number) {
+        this.userService.getUserById(id)
+        .subscribe(
+            response => {
+                this.user = response.data ;
+            },
+            error => {
+                this.alertService.error(error);
+            }
+        );
     }
 }

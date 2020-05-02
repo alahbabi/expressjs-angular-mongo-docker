@@ -40,15 +40,29 @@
           <tbody>
               <tr *ngFor="let student of students">
                   <td><img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-12.jpg" class="rounded-circle z-depth-0" alt="avatar image" height="30" /></td>
-                  <td><a><span (click)="studentDetail(student._id)">{{student.firstname}} {{student.lastname}}</span></a></td>
-                  <td><i class="fas fa-info-circle"></i></td>
+                  <td><a>{{student.firstname}} {{student.lastname}}</a></td>
+                  <td><span (click)="userInfo(student._id)"><i class="fas fa-info-circle"></i></span></td>
                   <td><i class="fas fa-user-minus"></i></td>
               </tr>
           </tbody>
       </table>
+  </div>
 
-      <div class="col-sm-3 mt-2">
-        
+  <div class="col-sm-3 mt-2">
+    <div *ngIf="user">
+      <div class="form-group text-center">
+        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-12.jpg" class="rounded-circle z-depth-0" alt="avatar image" height="80" />
       </div>
+      <div class="form-group">
+          <input type="text" [(ngModel)]="user.firstname" value={{user.firstname}} class="form-control"/>
+      </div>
+      <div class="form-group">
+          <input type="text" [(ngModel)]="user.lastname" value={{user.lastname}} class="form-control"/>
+      </div>
+      <div class="form-group">
+          <input type="text" [(ngModel)]="user.email" value={{user.email}} class="form-control"/>
+      </div>
+  </div>
+
   </div>
 </div>
