@@ -15,6 +15,7 @@ import { LoginComponent } from './_components/login';
 import { RegisterComponent } from './_components/register';
 import { UserDetailComponent } from './_components/user-detail';
 import { GroupComponent } from './_components/group';
+import { RoomComponent } from './_components/room';
 
 @NgModule({
     imports: [
@@ -33,15 +34,12 @@ import { GroupComponent } from './_components/group';
         UserDetailComponent,
         LoginComponent,
         RegisterComponent,
-        GroupComponent
+        GroupComponent,
+        RoomComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-        //,
-
-        // provider used to create fake backend
-        //fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })
