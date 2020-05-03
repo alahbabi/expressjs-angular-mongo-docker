@@ -10,5 +10,6 @@ router.put('/:id', group_controller.update);
 router.delete('/:id', group_controller.delete);
 router.post('/invit', group_controller.sendInvitation);
 router.post('/add', group_controller.addToGroup);
+router.delete('/remove/:idGroup/:idStudent', group_controller.removeFromGroup);
 
 module.exports = router;

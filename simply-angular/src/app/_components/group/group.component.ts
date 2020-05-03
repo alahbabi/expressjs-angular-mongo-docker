@@ -1,7 +1,6 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService, AlertService, GroupService, UserService } from '@/_services';
-import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { User } from '@/_models';
 
@@ -10,9 +9,6 @@ export class GroupComponent implements OnInit {
     groupForm: FormGroup;
     invitForm: FormGroup;
     groups : any;
-    loading = false;
-    submitted = false;
-    returnUrl: string;
     currentUser: any;
     p: number = 1;
     idGroup: number;
@@ -30,7 +26,7 @@ export class GroupComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private groupService: GroupService,
         private userService : UserService,
-        protected alertService: AlertService
+        private alertService: AlertService
     ) {
         this.currentUser = this.authenticationService.currentUserValue;
     }
@@ -55,38 +51,34 @@ export class GroupComponent implements OnInit {
         .subscribe(
             (response: any) => {
                 this.getAllUsersByGroupId(this.idGroup);
+                this.alertService.success('Student added', this.options);
+                this.user = null ;
+                this.invitForm.reset();
             },
             error => {
-                this.alertService.error(error, this.options);
+                this.alertService.error(error.message, this.options);
             }
         );
     }
 
-    onSubmit() {
-        this.submitted = true;
-
-        // reset alerts on submit
-        this.alertService.clear();
-
+    addGroup() {
         // stop here if form is invalid
         if (this.groupForm.invalid) {
             return;
         }
 
-        this.loading = true;
-
-
         this.groupService.addGroup({ name: this.groupForm.value.name, owner: this.currentUser.data.user })
             .pipe(first())
             .subscribe(
                 data => {
-                    //this.alertService.success('Group added successful', true);
-                    this.loading = false;
+                    this.user = null ;
+                    this.alertService.success('Group added successful', this.options);
                     this.loadAllGroupsByCurrentUser();
+                    this.students = null;
+                    this.groupForm.reset();
                 },
                 error => {
-                    this.alertService.error(error);
-                    this.loading = false;
+                    this.alertService.error(error, this.options);
                 });
     }
 
@@ -94,11 +86,15 @@ export class GroupComponent implements OnInit {
         this.groupService.delete(id)
             .pipe(first())
             .subscribe(() => this.loadAllGroupsByCurrentUser());
+            this.idGroup = null;
+            this.user = null ;
+            this.alertService.error("Group deleted", this.options);
     }
 
     sendInvitation() {
         this.groupService.sendInvitation(this.currentUser.data.user, this.i.email.value, this.idGroup)
             .subscribe(() => this.loadAllGroupsByCurrentUser());
+        this.alertService.success('Invitation sended', this.options);
     }
 
     getAllUsersByGroupId(id : number) {
@@ -107,9 +103,14 @@ export class GroupComponent implements OnInit {
             .subscribe(
                 response => {
                     this.students = response.data;
-                    console.log(response.data);
+                    if(this.students.length == 0) {
+                        this.user = null ;
+                        this.alertService.warn("Empty group", this.options);
+                    }else {
+                        this.user = this.students[0];
+                    }
                 },error => {
-                    this.alertService.error(error);
+                    this.alertService.error(error, this.options);
                 }
             );
     }
@@ -121,7 +122,7 @@ export class GroupComponent implements OnInit {
                     this.groups = response.data;
                 },
                 error => {
-                    this.alertService.error(error);
+                    this.alertService.error(error, this.options);
                 }
             );
     }
@@ -133,7 +134,24 @@ export class GroupComponent implements OnInit {
                 this.user = response.data ;
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error(error, this.options);
+            }
+        );
+    }
+
+    removeStudent(idStudent:number) {
+        if(idStudent == this.user._id) {
+            this.user = null ;
+        }
+        this.groupService.removeStudent(this.idGroup, idStudent)
+        .pipe(first())
+        .subscribe(
+            (response: any) => {
+                this.getAllUsersByGroupId(this.idGroup);
+                this.alertService.success('Student removed', this.options);
+            },
+            error => {
+                this.alertService.error(error, this.options);
             }
         );
     }

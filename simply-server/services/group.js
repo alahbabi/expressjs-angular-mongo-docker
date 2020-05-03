@@ -68,13 +68,26 @@ exports.addToGroup = async function (email, idGroup) {
     }
     let student = await userService.findByEmail(email);
     if (student === undefined || student === null) {
-      throw Error("student not found with email " + email);
+      throw Error("Student not found with email " + email);
     }
     student.groups.push(idGroup);
     await student.save();
     group.students.push(student);
     var savedGroup = await group.save();
     return savedGroup;
+  } catch (error) {
+    throw Error("Error while Updating group : " + error.message);
+  }
+};
+
+exports.removeFromGroup = async function (idGroup, idStudent) {
+  try {
+    var group = await groupModel.findById(idGroup).exec();
+    group.students.remove(idStudent);
+    await group.save();
+
+    await userService.removeGroup(idGroup, idStudent);
+    return group;
   } catch (error) {
     throw Error("Error while Updating group : " + error.message);
   }

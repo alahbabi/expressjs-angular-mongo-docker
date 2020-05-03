@@ -58,7 +58,6 @@ exports.findById = async function(id){
 exports.findByGroupId = async function(groupId) {
   try {
     var users = await userModel.find({ groups : groupId }).exec();
-    console.log(users);
     return users;
   } catch (error) {
       throw Error('Error while Finding Users By GroupId : ' + error.message);
@@ -99,3 +98,16 @@ exports.delete = async function(id){
       throw Error('Error while Deleting User : ' + error.message);
   }
 };
+
+
+exports.removeGroup = async function (idGroup, idStudent) {
+  try {
+    var user = await userModel.findById(idStudent).exec();
+    user.groups.remove(idGroup);
+    await user.save();
+    return user;
+  } catch (error) {
+    throw Error("Error while Updating user : " + error.message);
+  }
+};
+

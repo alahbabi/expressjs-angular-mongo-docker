@@ -21,12 +21,4 @@ export class AppComponent {
         this.authenticationService.logout();
         this.router.navigate(['/login']);
     }
-
-    planning() {
-        this.router.navigate(['/planning']);
-    }
-
-    group() {
-        this.router.navigate(['/group']);
-    }
 }

@@ -30,4 +30,8 @@ export class GroupService {
     addToGroup(email: String, idGroup: number) {
         return this.http.post(`${config.apiUrl}/groups/add`, {'email': email, 'idGroup': idGroup});
     }
+
+    removeStudent(idGroup: number, idStudent: number) {
+        return this.http.delete(`${config.apiUrl}/groups/remove/${idGroup}/${idStudent}`);
+    }
 }

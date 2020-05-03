@@ -103,6 +103,27 @@ exports.addToGroup = async function (request, response, next) {
         message: "Succesfully group Modified"
       });
   } catch (error) {
+      console.log(error.message);
+      return response.status(400).json({
+        status: 400,
+        message: error.message
+      });
+  }
+}
+
+
+// Modify group using his Id
+exports.removeFromGroup = async function (request, response, next) {
+  // TODO: Validation of parameters ...
+  try {
+    console.log('Controller id group ' + request.params.idGroup + ' id student ' + request.params.idStudent);
+      var group = await groupService.removeFromGroup(request.params.idGroup, request.params.idStudent);
+      return response.status(200).json({
+        status: 200,
+        data: group,
+        message: "Succesfully group Modified"
+      });
+  } catch (error) {
       return response.status(400).json({
         status: 400,
         message: error.message
