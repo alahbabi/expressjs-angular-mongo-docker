@@ -18,7 +18,7 @@
                   <tr *ngFor="let group of groups | filter:searchText">
                       <td>{{group.name}}</td>
                       
-                      <td><span><i class="fas fa-video"></i></span></td>
+                      <td><a [routerLink]="['/room']" [queryParams]="{id: group._id}"><i class="fas fa-video"></i></a></td>
                       <td><span (click)="getAllUsersByGroupId(group._id)"><i class="fas fa-users"></i></span></td>
                       <td><span (click)="deleteGroup(group._id)"><i class="fas fa-trash-alt"></i></span></td>
                   </tr>
