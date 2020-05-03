@@ -52,4 +52,20 @@ export class ChatService {
       return observable;
    }
 
+   userTyping(data) {
+      this.socket.emit('userTyping', data);
+   }
+
+   userTypingMessage() {
+      let observable = new Observable<{messageTyping: String }>(observer => {
+         this.socket.on('user typing', (data) => {
+            console.log(data);
+            observer.next(data);
+         });
+         return () => { this.socket.disconnect(); }
+      });
+
+      return observable;
+   }
+
 }

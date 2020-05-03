@@ -61,6 +61,10 @@ sio.on("connection", (socket) => {
     socket.on('message', function (data){
       sio.in(data.room).emit('new message', {user: data.user, message: data.message})
     })
+
+    socket.on('userTyping', function(data){
+      socket.broadcast.to(data.room).emit('user typing', {messageTyping: data.user + ' is typing ...'});
+    })
 });
 
 server.listen(3003);

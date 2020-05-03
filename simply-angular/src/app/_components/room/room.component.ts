@@ -13,6 +13,7 @@ export class RoomComponent implements OnInit {
     messageArray: Array<{ user: String, message: String }> = [];
     room:string;
     roomId:string;
+    typingEventMessage: { messageTyping: String};
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -31,6 +32,9 @@ export class RoomComponent implements OnInit {
 
         this.chatservice.newMessageReceived()
             .subscribe(data => this.messageArray.push(data));
+
+        this.chatservice.userTypingMessage()
+            .subscribe(data =>  this.typingEventMessage = data);
            
         this.join();
     }
@@ -49,6 +53,12 @@ export class RoomComponent implements OnInit {
 
     sendMessage() {
         this.chatservice.sendMessage({ user: this.currentUser.data.user.lastname, room:  this.roomId, message: this.messageText });
+        this.typingEventMessage.messageTyping = "";
+    }
+
+    userKeyPressEvent(event) {
+        this.chatservice.userTyping({ user: this.currentUser.data.user.lastname, room:  this.roomId});
+        this.typingEventMessage.messageTyping = "";
     }
 
 

@@ -9,8 +9,9 @@
                 <span><img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-7.jpg" class="rounded-circle z-depth-0 mr-3" alt="avatar image" height="30" /> <strong>{{item.user}} : </strong> {{item.message}}</span>
             </div>
         </div>
+        <span>{{typingEventMessage.messageTyping}}</span>
         <div class="input-group" >
-            <input type="text" [(ngModel)]="messageText" class="form-control form-rounded" placeholder="Message ... " />
+            <input type="text" [(ngModel)]="messageText" class="form-control form-rounded" placeholder="Message ... " (keypress)="userKeyPressEvent($event)" />
             <div class="input-group-append">
               <button class="btn btn-outline-secondary form-rounded" type="button" (click)="sendMessage()" >Send</button>
             </div>
