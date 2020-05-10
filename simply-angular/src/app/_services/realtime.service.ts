@@ -6,14 +6,13 @@ import { Observable, BehaviorSubject } from 'rxjs';
 export class RealTimeService {
     private socket = io('http://localhost:3003')
 
-
     joinRoom(data) {
-        this.socket.emit('join', data);
+        this.socket.emit('JOINROOM', data);
     }
 
-    newUserJoined() {
+    userJoinedRoom() {
         let observable = new Observable<{ user: String, message: String }>(observer => {
-            this.socket.on('new user joined', (data) => {
+            this.socket.on('JOINROOM', (data) => {
                 observer.next(data);
             });
             return () => { this.socket.disconnect(); }
@@ -23,12 +22,12 @@ export class RealTimeService {
     }
 
     leaveRoom(data) {
-        this.socket.emit('leave', data);
+        this.socket.emit('LEAVEROOM', data);
     }
 
     userLeftRoom() {
         let observable = new Observable<{ user: String, message: String }>(observer => {
-            this.socket.on('user left room', (data) => {
+            this.socket.on('LEAVEROOM', (data) => {
                 observer.next(data);
             });
             return () => { this.socket.disconnect(); }
@@ -38,12 +37,12 @@ export class RealTimeService {
     }
 
     sendMessage(data) {
-        this.socket.emit('message', data);
+        this.socket.emit('MESSAGE', data);
     }
 
-    newMessageReceived() {
+    message() {
         let observable = new Observable<{ user: String, message: String }>(observer => {
-            this.socket.on('new message', (data) => {
+            this.socket.on('MESSAGE', (data) => {
                 observer.next(data);
             });
             return () => { this.socket.disconnect(); }
@@ -53,12 +52,12 @@ export class RealTimeService {
     }
 
     userTyping(data) {
-        this.socket.emit('userTyping', data);
+        this.socket.emit('USERTYPING', data);
     }
 
     userTypingMessage() {
         let observable = new Observable<{ messageTyping: String }>(observer => {
-            this.socket.on('user typing', (data) => {
+            this.socket.on('USERTYPING', (data) => {
                 observer.next(data);
             });
             return () => { this.socket.disconnect(); }
@@ -69,17 +68,17 @@ export class RealTimeService {
 
     emitBroadcasterEvent() {
         console.log("EMIT BROADCAST EVENT")
-        this.socket.emit('broadcaster');
+        this.socket.emit('BROADCASTER');
         console.log("EMIT BROADCAST EVENT DONE")
     }
 
-    receiveBroadcasterEvent() {
+    broadcastEvent() {
         let observable = new Observable<{ broadcasterId: string }>((observer) => {
             console.log("RECEIVE BROADCAST EVENT")
-            this.socket.on('broadcaster', (data) => {
-                console.log("DATA RECEIVED WITH BROADCAST EVENT "+ data.broadcasterId)
+            this.socket.on('BROADCASTER', (data) => {
+                console.log("DATA RECEIVED WITH BROADCAST EVENT " + data.broadcasterId)
                 console.log("EMIT WATCHER EVENT ")
-                this.socket.emit("watcher");
+                this.socket.emit('WATCHER');
                 console.log("EMIT WATCHER EVENT DONE")
                 observer.next(data);
             });
@@ -89,10 +88,10 @@ export class RealTimeService {
         return observable;
     }
 
-    receiveWatcherEvent() {
+    watcherEvent() {
         let observable = new Observable<{ id: String }>(observer => {
-            this.socket.on('watcher', (data) => {
-                console.log("RECEIVE WATCHER EVENT WITH " + data); 
+            this.socket.on('WATCHER', (data) => {
+                console.log("RECEIVE WATCHER EVENT WITH " + data);
                 observer.next(data);
             });
             return () => { this.socket.disconnect(); }
@@ -102,20 +101,31 @@ export class RealTimeService {
     }
 
     sendOffer(data) {
-        console.log("SEND OFFER TO " + data.id + " MESSAGE "+ data.message)
-        this.socket.emit('offer', data);
+        console.log("SEND OFFER TO " + data.id + " MESSAGE " + data.message)
+        this.socket.emit('OFFER', data);
+    }
+
+    offerEvent() {
+        let observable = new Observable<{ id: String, message: String }>(observer => {
+            this.socket.on('OFFER', (data) => {
+                console.log("RECEIVE OFFER FROM " + data.id + " MESSAGE " + data.message)
+                observer.next(data);
+            });
+            return () => { this.socket.disconnect(); }
+        });
+
+        return observable;
     }
 
     sendCandidate(data) {
-        console.log("SEND CANDIDATE TO " + data.id + " MESSAGE "+ data.message)
-        this.socket.emit('candidate', data);
+        console.log("SEND CANDIDATE TO " + data.id + " MESSAGE " + data.message)
+        this.socket.emit('CANDIDATE', data);
     }
 
-
-    receiveOffer() {
+    candidateEvent() {
         let observable = new Observable<{ id: String, message: String }>(observer => {
-            this.socket.on('offer', (data) => {
-                console.log("RECEIVE OFFER FROM " + data.id + " MESSAGE "+ data.message)
+            this.socket.on('CANDIDATE', (data) => {
+                console.log("RECEIVE CANDIDATE FROM " + data.id + " MESSAGE " + data.message)
                 observer.next(data);
             });
             return () => { this.socket.disconnect(); }
@@ -123,29 +133,32 @@ export class RealTimeService {
 
         return observable;
     }
-
-    receiveCandidate() {
-        let observable = new Observable<{ id: String, message: String }>(observer => {
-            this.socket.on('candidate', (data) => {
-                console.log("RECEIVE CANDIDATE FROM " + data.id + " MESSAGE "+ data.message)
-                observer.next(data);
-            });
-            return () => { this.socket.disconnect(); }
-        });
-
-        return observable;
-    }
-
 
     sendAnswer(data) {
-        this.socket.emit('answer', data);
-        console.log("SEND ANSWER TO " + data.id + " MESSAGE "+ data.message)
+        this.socket.emit('ANSWER', data);
+        console.log("SEND ANSWER TO " + data.id + " MESSAGE " + data.message)
     }
 
-    receiveAnswer() {
+    answerEvent() {
         let observable = new Observable<{ id: String, message: String }>(observer => {
-            this.socket.on('answer', (data) => {
-                console.log("RECEIVE ANSWER TO " + data.id + " MESSAGE "+ data.message)
+            this.socket.on('ANSWER', (data) => {
+                console.log("RECEIVE ANSWER TO " + data.id + " MESSAGE " + data.message)
+                observer.next(data);
+            });
+            return () => { this.socket.disconnect(); }
+        });
+
+        return observable;
+    }
+
+    sendCloseWindow() {
+        this.socket.emit('DISCONNECT');
+    }
+
+    closeWindowEvent() {
+        let observable = new Observable<{ id: String }>(observer => {
+            this.socket.on('DISCONNECT', (data) => {
+                console.log("DISCONNECT PEER" + data)
                 observer.next(data);
             });
             return () => { this.socket.disconnect(); }

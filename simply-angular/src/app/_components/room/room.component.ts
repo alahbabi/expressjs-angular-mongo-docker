@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { AuthenticationService, RealTimeService } from '@/_services';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
     templateUrl: 'room.component.html',
-    providers: [RealTimeService, { provide: Window, useValue: window }]
+    providers: [RealTimeService]
 })
 export class RoomComponent implements OnInit {
     currentUser: any;
@@ -13,9 +13,7 @@ export class RoomComponent implements OnInit {
     messageArray: Array<{ user: String, message: String }> = [];
     room: string;
     roomId: string;
-    //typingEventMessage: { messageTyping: String };
     profile: string;
-    localStream: any;
     peerConnections = {};
     broadcasterSocketId: string;
     peerConnection;
@@ -24,15 +22,14 @@ export class RoomComponent implements OnInit {
 
     config = {
         iceServers: [
-          {
-            urls: [
-              "stun:108.177.15.127:19302"
-            ]
-          }
+            {
+                urls: [
+                    "stun:108.177.15.127:19302"
+                ]
+            }
         ],
         iceTransportPolicy: "all",
-      };
-
+    };
 
     private teacherStreamingVideo: ElementRef;
     @ViewChild('teacherStreamingVideo', { static: false }) set content(content: ElementRef) {
@@ -42,13 +39,13 @@ export class RoomComponent implements OnInit {
     };
 
     private studentStreamingVideo: ElementRef;
-    @ViewChild('studentStreamingVideo', { static: false }) set contente(contente: ElementRef) {
-        if (contente) { // initially setter gets called with undefined
-            this.studentStreamingVideo = contente;
+    @ViewChild('studentStreamingVideo', { static: false }) set contentt(contentt: ElementRef) {
+        if (contentt) { // initially setter gets called with undefined
+            this.studentStreamingVideo = contentt;
         }
     }
 
-
+    ngOnInit() { }
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -58,60 +55,67 @@ export class RoomComponent implements OnInit {
 
         this.currentUser = this.authenticationService.currentUserValue;
 
-        this.realTimeService.newUserJoined()
+        this.realTimeService.userJoinedRoom()
             .subscribe(data => this.messageArray.push(data));
 
         this.realTimeService.userLeftRoom()
             .subscribe(data => this.messageArray.push(data));
 
-        this.realTimeService.newMessageReceived()
+        this.realTimeService.message()
             .subscribe(data => this.messageArray.push(data));
 
-
-
-        this.realTimeService.receiveBroadcasterEvent().subscribe(data => {
+        this.realTimeService.broadcastEvent().subscribe(data => {
             this.broadcasterSocketId = data.broadcasterId;
             console.log("THE BROADCASTER ID IS : " + data.broadcasterId)
         });
 
-        this.realTimeService.receiveWatcherEvent().subscribe(id => {
+        this.realTimeService.watcherEvent().subscribe(id => {
             setTimeout(() => {
-                this.watcher(id);
-            }, 5000);
+                this.watcherEventTreatement(id);
+            }, 4000);
         });
 
-        this.realTimeService.receiveOffer().subscribe(data => {
-            setTimeout(() => {
-                this.receiveOffer(data);
-            }, 2000);
+        this.realTimeService.offerEvent().subscribe(data => {
+            this.offerEventTreatment(data);
         });
 
-        this.realTimeService.receiveCandidate().subscribe(data => {
+        this.realTimeService.candidateEvent().subscribe(data => {
             setTimeout(() => {
-                this.receiveCandidate(data);
-            }, 2000);
+                this.candidateEventTreatement(data);
+            }, 4000);
         });
 
-        this.realTimeService.receiveAnswer().subscribe(data => {
-            setTimeout(() => {
-                this.receiveAnswer(data);
-            }, 2000);
+        this.realTimeService.answerEvent().subscribe(data => {
+            this.answerEventTreatement(data);
+        });
+
+        this.realTimeService.closeWindowEvent().subscribe(id => {
+            this.closeWindowEventTreatement(id);
         });
 
         this.join();
         this.profile = this.currentUser.data.user.profile;
     }
 
-    receiveAnswer(data) {
-        console.log("1" + JSON.stringify(this.peerConnections))
+    join() {
+        this.realTimeService.joinRoom({ user: this.currentUser.data.user.lastname, room: this.roomId });
+    }
+
+    leave() {
+        this.realTimeService.leaveRoom({ user: this.currentUser.data.user.lastname, room: this.roomId });
+    }
+
+    sendMessage() {
+        this.realTimeService.sendMessage({ user: this.currentUser.data.user.lastname, room: this.roomId, message: this.messageText });
+    }
+
+    answerEventTreatement(data) {
         this.peerConnections[data.id].setRemoteDescription(data.message);
     }
 
-    watcher(id) {
+    watcherEventTreatement(id) {
         let peerConnection = new RTCPeerConnection(config);
-        console.log("4" + JSON.stringify(peerConnection))
         this.peerConnections[id] = peerConnection;
-        console.log("2" + JSON.stringify(this.peerConnections))
 
         let video = this.teacherStreamingVideo.nativeElement;
         let stream = video.srcObject;
@@ -122,7 +126,6 @@ export class RoomComponent implements OnInit {
             .createOffer()
             .then((sdp) => peerConnection.setLocalDescription(sdp))
             .then(() => {
-                console.log("5" + JSON.stringify(peerConnection.localDescription));
                 this.realTimeService.sendOffer({ id: id, message: peerConnection.localDescription });
             });
 
@@ -133,9 +136,8 @@ export class RoomComponent implements OnInit {
         };
     }
 
-    receiveCandidate(data) {
+    candidateEventTreatement(data) {
         if (data.id == this.broadcasterSocketId) {
-            console.log("3" + JSON.stringify(this.peerConnections))
             this.peerConnections[data.id].addIceCandidate(new RTCIceCandidate(data.message));
         } else {
             this.peerConnection
@@ -144,7 +146,7 @@ export class RoomComponent implements OnInit {
         }
     }
 
-    receiveOffer(data) {
+    offerEventTreatment(data) {
         this.peerConnection = new RTCPeerConnection(config);
         this.peerConnection
             .setRemoteDescription(data.message)
@@ -166,25 +168,7 @@ export class RoomComponent implements OnInit {
         };
     }
 
-
-
-    ngOnInit() {
-
-    }
-
-    join() {
-        this.realTimeService.joinRoom({ user: this.currentUser.data.user.lastname, room: this.roomId });
-    }
-
-    leave() {
-        this.realTimeService.leaveRoom({ user: this.currentUser.data.user.lastname, room: this.roomId });
-    }
-
-    sendMessage() {
-        this.realTimeService.sendMessage({ user: this.currentUser.data.user.lastname, room: this.roomId, message: this.messageText });
-    }
-
-    startStream() {
+    startLive() {
         const video = this.teacherStreamingVideo.nativeElement;
 
         this._navigator.getUserMedia =
@@ -194,20 +178,17 @@ export class RoomComponent implements OnInit {
             this._navigator.msGetUserMedia;
 
         this._navigator.getUserMedia(
-            // constraints
             {
-                //audio: true,
+                audio: true,
                 video: true,
                 mandatory: {
                     OfferToReceiveAudio: true,
                     OfferToReceiveVideo: true,
                 }
             },
-            // successCallback
             function (stream) {
                 video.srcObject = stream;
             },
-            // errorCallback
             function (err) {
                 console.log("The following error occured: " + err);
             }
@@ -215,7 +196,7 @@ export class RoomComponent implements OnInit {
         this.realTimeService.emitBroadcasterEvent();
     }
 
-    stopStream() {
+    stopLive() {
         const video = this.teacherStreamingVideo.nativeElement;
         const stream = video.srcObject;
         const tracks = stream.getTracks();
@@ -225,4 +206,17 @@ export class RoomComponent implements OnInit {
         video.srcObject = null;
     }
 
+    @HostListener('window:beforeunload', ['$event'])
+    beforeunloadHandler(event) {
+        this.realTimeService.sendCloseWindow();
+    }
+
+    closeWindowEventTreatement(id) {
+        if (id) {
+            this.peerConnections[id].close();
+            delete this.peerConnections[id];
+        } else {
+            this.peerConnection.close();
+        }
+    }
 }
