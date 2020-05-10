@@ -10,7 +10,7 @@ import { RoomComponent } from './_components/room';
 
 const routes: Routes = [
     { path: 'group', component: GroupComponent, canActivate: [AuthGuard] },
-    { path: '', component: UserComponent, canActivate: [AuthGuard], 
+    { path: '', component: GroupComponent, canActivate: [AuthGuard], 
         children: [
             { path: 'user-detail', component: UserDetailComponent},
         ]

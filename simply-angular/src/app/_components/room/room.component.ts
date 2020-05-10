@@ -47,6 +47,10 @@ export class RoomComponent implements OnInit {
 
     ngOnInit() { }
 
+    ngOnDestroy() {
+        this.stopLive();
+    }
+
     constructor(
         private authenticationService: AuthenticationService,
         private route: ActivatedRoute,
@@ -199,11 +203,13 @@ export class RoomComponent implements OnInit {
     stopLive() {
         const video = this.teacherStreamingVideo.nativeElement;
         const stream = video.srcObject;
-        const tracks = stream.getTracks();
-        tracks.forEach(function (track) {
-            track.stop();
-        });
-        video.srcObject = null;
+        if(stream) {
+            const tracks = stream.getTracks();
+            tracks.forEach(function (track) {
+                track.stop();
+            });
+            video.srcObject = null;
+        }
     }
 
     @HostListener('window:beforeunload', ['$event'])

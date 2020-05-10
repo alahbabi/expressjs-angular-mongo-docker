@@ -1,9 +1,11 @@
 ﻿
 <div class="container-fluid">
-    <nav class="navbar navbar-light bg-light">
-        <a (click)="logout()" *ngIf="currentUser"><i class="text-dark fas fa-power-off fa-lg py-2 p-1"></i></a>
-        <a [routerLink]="['/group']">Group</a>
-    </nav>
+    <nav class="navbar navbar-light bg-light justify-content-between" *ngIf="currentUser">
+        <a class="navbar-brand" [routerLink]="['/group']">Groups</a>
+        <form class="form-inline">
+          <button class="btn btn-secondary my-2 my-sm-0" (click)="logout()">LOGOUT</button>
+        </form>
+      </nav>
     <router-outlet></router-outlet>
     <div id="message">
         <alert></alert>
