@@ -45,15 +45,15 @@ const sio = require("socket.io")(server, {
     }
 });
 
+let broadcaster;
+
 sio.on("connection", (socket) => {
     socket.on('join', function (data){
       socket.join(data.room)
-      console.log(data.user + ' joined the room : ' + data.room );
       socket.broadcast.to(data.room).emit('new user joined', {user: data.user, message: 'has joined room.'});
     })
 
     socket.on('leave', function (data){
-      console.log(data.user + ' left the room : ' + data.room );
       socket.broadcast.to(data.room).emit('user left room', {user: data.user, message: 'has left this room.'});
       socket.leave(data.room)
     })
@@ -65,6 +65,29 @@ sio.on("connection", (socket) => {
     socket.on('userTyping', function(data){
       socket.broadcast.to(data.room).emit('user typing', {messageTyping: data.user + ' is typing ...'});
     })
+
+    socket.on("broadcaster", () => {
+      broadcaster = socket.id;
+      // SAUF L'EMETTEUR DE LA SOCKET
+      socket.broadcast.emit("broadcaster", {broadcasterId : broadcaster});
+    });
+
+    socket.on("watcher", () => {
+      socket.to(broadcaster).emit("watcher", socket.id);
+    });
+
+    socket.on("offer", (data) => {
+      socket.to(data.id).emit("offer", {id: socket.id, message : data.message});
+    });
+
+    socket.on("candidate", (data) => {
+      socket.to(data.id).emit("candidate", {id: socket.id, message : data.message});
+    });
+    
+
+    socket.on("answer", (data) => {
+      socket.to(data.id).emit("answer", {id: socket.id, message : data.message});
+    });
 });
 
 server.listen(3003);

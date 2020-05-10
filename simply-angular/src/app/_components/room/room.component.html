@@ -1,20 +1,30 @@
 <div class="row  ml-1 mr-1" >
-    <div class="col-sm-8 mt-2 div2" style="background-color: grey;">
-
+  <div class="col-sm-1 mt-2 div2">
+    <button (click)="startStream()"> Start</button>
+    <button (click)="stopStream()"> Stop</button>
+  </div>
+  <div class="col-sm-7 mt-2 div2">     
+    <div *ngIf="profile == 'Teacher'" >
+      <video playsinline autoplay muted #teacherStreamingVideo></video>
     </div>
-    <div class="col-sm-4 mt-2 div2" >
 
-        <div class="my-custom-scrollbar-chat">
-            <div *ngFor="let item of messageArray" class="mt-2">
-                <span><img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-7.jpg" class="rounded-circle z-depth-0 mr-3" alt="avatar image" height="30" /> <strong>{{item.user}} : </strong> {{item.message}}</span>
-            </div>
-        </div>
-        <span>{{typingEventMessage.messageTyping}}</span>
-        <div class="input-group" >
-            <input type="text" [(ngModel)]="messageText" class="form-control form-rounded" placeholder="Message ... " (keypress)="userKeyPressEvent($event)" />
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary form-rounded" type="button" (click)="sendMessage()" >Send</button>
-            </div>
+    <div *ngIf="profile == 'Student'">
+      <video playsinline autoplay muted #studentStreamingVideo></video>
+    </div>
+  </div>
+  <div class="col-sm-4 mt-2 div2" >
+
+      <div class="my-custom-scrollbar-chat">
+          <div *ngFor="let item of messageArray" class="mt-2">
+              <span><img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-7.jpg" class="rounded-circle z-depth-0 mr-3" alt="avatar image" height="30" /> <strong>{{item.user}} : </strong> {{item.message}}</span>
           </div>
-    </div>
+      </div>
+      
+      <div class="input-group" >
+          <input type="text" [(ngModel)]="messageText" class="form-control form-rounded" placeholder="Message ... " />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary form-rounded" type="button" (click)="sendMessage()" >Send</button>
+          </div>
+        </div>
+  </div>
 </div>
