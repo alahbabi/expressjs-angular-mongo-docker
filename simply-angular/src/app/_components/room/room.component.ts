@@ -72,7 +72,7 @@ export class RoomComponent implements OnInit {
         this.realTimeService.watcherEvent().subscribe(id => {
             setTimeout(() => {
                 this.watcherEventTreatement(id);
-            }, 4000);
+            }, 5000);
         });
 
         this.realTimeService.offerEvent().subscribe(data => {
@@ -82,7 +82,7 @@ export class RoomComponent implements OnInit {
         this.realTimeService.candidateEvent().subscribe(data => {
             setTimeout(() => {
                 this.candidateEventTreatement(data);
-            }, 4000);
+            }, 3000);
         });
 
         this.realTimeService.answerEvent().subscribe(data => {
@@ -107,10 +107,6 @@ export class RoomComponent implements OnInit {
 
     sendMessage() {
         this.realTimeService.sendMessage({ user: this.currentUser.data.user.lastname, room: this.roomId, message: this.messageText });
-    }
-
-    answerEventTreatement(data) {
-        this.peerConnections[data.id].setRemoteDescription(data.message);
     }
 
     watcherEventTreatement(id) {
@@ -166,6 +162,10 @@ export class RoomComponent implements OnInit {
             const video = this.studentStreamingVideo.nativeElement;
             video.srcObject = event.streams[0];
         };
+    }
+
+    answerEventTreatement(data) {
+        this.peerConnections[data.id].setRemoteDescription(data.message);
     }
 
     startLive() {

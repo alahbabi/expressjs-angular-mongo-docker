@@ -4,10 +4,12 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RealTimeService {
+
     private socket = io('http://localhost:3003')
 
     joinRoom(data) {
         this.socket.emit('JOINROOM', data);
+        this.socket.emit("WATCHER");
     }
 
     userJoinedRoom() {
