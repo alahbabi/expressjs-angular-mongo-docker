@@ -30,11 +30,41 @@ export class RoomComponent implements OnInit {
         ],
         iceTransportPolicy: "all",
     };
+   
+    status: string;
+    enableStartCapture: boolean;
+    enableStopCapture: boolean;
+    enableDownloadRecording: boolean;
+    recording: any;
+    chunks: any[];
+    stream: any;
+    mediaRecorder: any;
+
+    downloadLink:ElementRef;
+    @ViewChild('downloadLink', { static: false }) set contentrt(content: ElementRef) {
+        if (content) { // initially setter gets called with undefined
+            this.downloadLink = content;
+        }
+    };
+
+    private teacherStreamingAudio: ElementRef;
+    @ViewChild('teacherStreamingAudio', { static: false }) set contenttt(content: ElementRef) {
+        if (content) { // initially setter gets called with undefined
+            this.teacherStreamingAudio = content;
+        }
+    };
 
     private teacherStreamingVideo: ElementRef;
     @ViewChild('teacherStreamingVideo', { static: false }) set content(content: ElementRef) {
         if (content) { // initially setter gets called with undefined
             this.teacherStreamingVideo = content;
+        }
+    };
+
+    private teacherStreamingScreen: ElementRef
+    @ViewChild('teacherStreamingScreen', { static: false }) set contedent(content: ElementRef) {
+        if (content) { // initially setter gets called with undefined
+            this.teacherStreamingScreen = content;
         }
     };
 
@@ -119,8 +149,14 @@ export class RoomComponent implements OnInit {
 
         let video = this.teacherStreamingVideo.nativeElement;
         let stream = video.srcObject;
+
+        let audio = this.teacherStreamingAudio.nativeElement;
+        let audioStream = audio.srcObject;
+
         let tracks = stream.getTracks();
+        let audiotracks = audioStream.getTracks();
         tracks.forEach((track) => peerConnection.addTrack(track, stream));
+        audiotracks.forEach((track) => peerConnection.addTrack(track, audioStream));
 
         peerConnection
             .createOffer()
@@ -183,7 +219,7 @@ export class RoomComponent implements OnInit {
 
         this._navigator.getUserMedia(
             {
-                audio: true,
+                audio: false,
                 video: true,
                 mandatory: {
                     OfferToReceiveAudio: true,
@@ -200,10 +236,37 @@ export class RoomComponent implements OnInit {
         this.realTimeService.emitBroadcasterEvent();
     }
 
+    startAudio() {
+        const audio = this.teacherStreamingAudio.nativeElement;
+
+        this._navigator.getUserMedia =
+            this._navigator.getUserMedia ||
+            this._navigator.webkitGetUserMedia ||
+            this._navigator.mozGetUserMedia ||
+            this._navigator.msGetUserMedia;
+
+        this._navigator.getUserMedia(
+            {
+                video: false,
+                audio: true,
+                mandatory: {
+                    OfferToReceiveAudio: true,
+                    OfferToReceiveVideo: false
+                }
+            },
+            function (stream) {
+                audio.srcObject = stream;
+            },
+            function (err) {
+                console.log("The following error occured: " + err);
+            }
+        );
+    }
+
     stopLive() {
         const video = this.teacherStreamingVideo.nativeElement;
         const stream = video.srcObject;
-        if(stream) {
+        if (stream) {
             const tracks = stream.getTracks();
             tracks.forEach(function (track) {
                 track.stop();
@@ -225,4 +288,67 @@ export class RoomComponent implements OnInit {
             this.peerConnection.close();
         }
     }
+
+
+    static _startScreenCapture() {
+        const mediaDevices = navigator.mediaDevices as any;
+        if (mediaDevices.getDisplayMedia) {
+            return mediaDevices.getDisplayMedia({audio: true, video: true });
+        } else {
+            return mediaDevices.getUserMedia({audio: true, video: { mediaSource: 'screen' } });
+        }
+    }
+
+    async _startCapturing(e) {
+        console.log('Start capturing.');
+        this.status = 'Screen recording started.';
+        this.startAudio();
+        const video = this.teacherStreamingScreen.nativeElement;
+
+        if (this.recording) {
+            window.URL.revokeObjectURL(this.recording);
+        }
+
+        this.chunks = [];
+        this.recording = null;
+        this.stream = await RoomComponent._startScreenCapture();
+        video.srcObject = this.stream;
+        
+        this.mediaRecorder = new MediaRecorder(this.stream, { mimeType: 'video/webm' });
+        this.mediaRecorder.addEventListener('dataavailable', event => {
+            if (event.data && event.data.size > 0) {
+                this.chunks.push(event.data);
+            }
+        });
+        this.mediaRecorder.start(10);
+        this.realTimeService.emitBroadcasterEvent();
+    }
+
+    _stopCapturing(e) {
+        console.log('Stop capturing.');
+        this.status = 'Screen recorded completed.';
+        this.enableStartCapture = true;
+        this.enableStopCapture = false;
+        this.enableDownloadRecording = true;
+    
+        this.mediaRecorder.stop();
+        this.mediaRecorder = null;
+        this.stream.getTracks().forEach(track => track.stop());
+        this.stream = null;
+    
+        this.recording = window.URL.createObjectURL(new Blob(this.chunks, {type: 'video/webm'}));
+    } 
+      
+    
+    _downloadRecording(e) {
+        console.log('Download recording.');
+        this.enableStartCapture = true;
+        this.enableStopCapture = false;
+        this.enableDownloadRecording = false;
+    
+        this.downloadLink.nativeElement.addEventListener('progress', e => console.log(e));
+        this.downloadLink.nativeElement.href = this.recording;
+        this.downloadLink.nativeElement.download = 'screen-recording.webm';
+        this.downloadLink.nativeElement.click();
+      }
 }

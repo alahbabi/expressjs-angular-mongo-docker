@@ -1,14 +1,21 @@
 <div class="row  ml-1 mr-1" >
-  <div class="col-sm-6 mt-2 div2" (click)="startLive()">     
+  <div class="col-sm-7 mt-2 div2">     
     <div *ngIf="profile == 'Teacher'" >
-      <video playsinline autoplay #teacherStreamingVideo class="embed-responsive video-fluid z-depth-1"></video>
+      <video playsinline autoplay #teacherStreamingVideo  style="border-radius: 50%; object-fit: cover;" width="200" height="200"></video>
+      <video playsinline autoplay #teacherStreamingScreen></video>
+      <audio #teacherStreamingAudio style="display: none;"></audio>
     </div>
-
+   
     <div *ngIf="profile == 'Student'">
       <video playsinline autoplay muted #studentStreamingVideo></video>
     </div>
+    <a #downloadLink type="video/webm" style="display: none"></a>
+    <button class="btn" (click)='startLive()'>Camera</button>
+    <button class="btn" (click)='_startCapturing()'>Screen share</button>
+    <button class="btn" (click)='_stopCapturing()'>Stop</button>
+    <button class="btn" (click)='_downloadRecording()'>Download</button>
   </div>
-  <div class="col-sm-5 mt-2 ml-5 div2" >
+  <div class="col-sm-4 mt-2 ml-5 div2" >
     <div class="my-custom-scrollbar-chat">
         <div *ngFor="let item of messageArray" class="mt-2">
             <span><img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-7.jpg" class="rounded-circle z-depth-0 mr-3" alt="avatar image" height="30" /> <strong>{{item.user}} : </strong> {{item.message}}</span>
