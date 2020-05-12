@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { User } from '@/_models';
+import { User } from '@/models';
 import { BehaviorSubject } from 'rxjs';
 
 //La propriété providedIn: root du décorateur permet de dire que le service est accessible globalement

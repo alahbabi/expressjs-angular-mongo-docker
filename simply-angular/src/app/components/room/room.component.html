@@ -1,0 +1,50 @@
+<div class="row ml-1 mr-1">
+  <a #downloadLink type="video/webm" style="display: none;"></a>
+  <div class="col-sm-6 mt-2 div2">
+      <a #downloadLink type="video/webm" style="display: none;"></a>
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs">
+          <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#live"  (click) ="startStreamingVideo()">Live</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#screen" (click)="startSharingVideo()">Screen</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#document">File</a>
+          </li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+          <div class="tab-pane container active" id="live">
+              <div *ngIf="profile == 'Teacher'">
+                  <video playsinline autoplay #teacherStreamingVideo></video>
+              </div>
+
+              <div *ngIf="profile == 'Student'">
+                  <video playsinline autoplay #studentStreamingVideo></video>
+              </div>
+          </div>
+          <div class="tab-pane container fade" id="screen">
+              <video playsinline autoplay #teacherStreamingScreen ></video>
+              <audio #teacherStreamingAudio style="display: none;"></audio>
+          </div>
+          <div class="tab-pane container fade" id="document">...</div>
+      </div>
+  </div>
+
+  <div class="col-sm-4 mt-2 ml-5 div2">
+      <div class="my-custom-scrollbar-chat">
+          <div *ngFor="let item of messageArray" class="mt-2">
+              <span><img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-7.jpg" class="rounded-circle z-depth-0 mr-3" alt="avatar image" height="30" /> <strong>{{item.user}} : </strong> {{item.message}}</span>
+          </div>
+      </div>
+  </div>
+  <div class="input-group chat-box">
+      <input type="text" [(ngModel)]="messageText" class="form-control form-rounded" placeholder="Message ... " />
+      <div class="input-group-append">
+          <button class="btn btn-outline-secondary form-rounded" type="button" (click)="sendMessage()">Send</button>
+      </div>
+  </div>
+</div>

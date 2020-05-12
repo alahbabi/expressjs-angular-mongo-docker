@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlertComponent } from '@/_components/alert';
+import { AlertComponent } from '@/components/alert';
 
 @NgModule({
     imports: [CommonModule],

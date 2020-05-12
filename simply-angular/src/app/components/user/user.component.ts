@@ -1,8 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { User } from '@/_models';
-import { UserService, AuthenticationService, AlertService } from '@/_services';
+import { User } from '@/models';
+import { UserService, AuthenticationService, AlertService } from '@/services';
 import { Router } from '@angular/router';
 
 @Component({ templateUrl: 'user.component.html' })

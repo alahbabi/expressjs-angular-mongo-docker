@@ -1,8 +1,8 @@
 ﻿import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthenticationService } from './_services';
-import { User } from './_models';
+import { AuthenticationService } from './services';
+import { User } from './models';
 
 import './shared/_content/app.less';
 

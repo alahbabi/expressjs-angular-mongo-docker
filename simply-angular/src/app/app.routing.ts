@@ -1,12 +1,11 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
 
-import { UserComponent } from './_components/user';
-import { LoginComponent } from './_components/login';
-import { RegisterComponent } from './_components/register';
+import { LoginComponent } from './components/login';
+import { RegisterComponent } from './components/register';
 import { AuthGuard } from './shared/_helpers';
-import { UserDetailComponent } from './_components/user-detail';
-import { GroupComponent } from './_components/group';
-import { RoomComponent } from './_components/room';
+import { UserDetailComponent } from './components/user-detail';
+import { GroupComponent } from './components/group';
+import { RoomComponent } from './components/room';
 
 const routes: Routes = [
     { path: 'group', component: GroupComponent, canActivate: [AuthGuard] },

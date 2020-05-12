@@ -1,8 +1,8 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService, AlertService, GroupService, UserService } from '@/_services';
+import { AuthenticationService, AlertService, GroupService, UserService } from '@/services';
 import { first } from 'rxjs/operators';
-import { User } from '@/_models';
+import { User } from '@/models';
 
 @Component({ templateUrl: 'group.component.html' })
 export class GroupComponent implements OnInit {

@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { Alert, AlertType } from '@/_models/alert';
+import { Alert, AlertType } from '@/models/alert';
 import { filter } from 'rxjs/operators';
 
 // La propriété providedIn: root du décorateur permet de dire que le service est accessible globalement
