@@ -9,7 +9,7 @@ export class RealTimeService {
 
     joinRoom(data) {
         this.socket.emit('JOINROOM', data);
-        this.socket.emit("WATCHER");
+        this.socket.emit('WATCHER', data);
     }
 
     userJoinedRoom() {
@@ -68,19 +68,19 @@ export class RealTimeService {
         return observable;
     }
 
-    emitBroadcasterEvent() {
+    emitBroadcasterEvent(roomId: string) {
         console.log("EMIT BROADCAST EVENT")
-        this.socket.emit('BROADCASTER');
+        this.socket.emit('BROADCASTER', {roomId: roomId});
         console.log("EMIT BROADCAST EVENT DONE")
     }
 
-    broadcastEvent() {
+    broadcastEvent(roomId: string) {
         let observable = new Observable<{ broadcasterId: string }>((observer) => {
             console.log("RECEIVE BROADCAST EVENT")
-            this.socket.on('BROADCASTER', (data) => {
+            this.socket.on('BROADCASTER'+roomId, (data) => {
                 console.log("DATA RECEIVED WITH BROADCAST EVENT " + data.broadcasterId)
                 console.log("EMIT WATCHER EVENT ")
-                this.socket.emit('WATCHER');
+                this.socket.emit('WATCHER', {roomId: roomId});
                 console.log("EMIT WATCHER EVENT DONE")
                 observer.next(data);
             });
@@ -90,9 +90,9 @@ export class RealTimeService {
         return observable;
     }
 
-    watcherEvent() {
+    watcherEvent(roomId: string) {
         let observable = new Observable<{ id: String }>(observer => {
-            this.socket.on('WATCHER', (data) => {
+            this.socket.on('WATCHER'+roomId, (data) => {
                 console.log("RECEIVE WATCHER EVENT WITH " + data);
                 observer.next(data);
             });
@@ -107,9 +107,9 @@ export class RealTimeService {
         this.socket.emit('OFFER', data);
     }
 
-    offerEvent() {
+    offerEvent(roomId:string) {
         let observable = new Observable<{ id: String, message: String }>(observer => {
-            this.socket.on('OFFER', (data) => {
+            this.socket.on('OFFER'+roomId, (data) => {
                 console.log("RECEIVE OFFER FROM " + data.id + " MESSAGE " + data.message)
                 observer.next(data);
             });
@@ -124,9 +124,9 @@ export class RealTimeService {
         this.socket.emit('CANDIDATE', data);
     }
 
-    candidateEvent() {
+    candidateEvent(roomId:string) {
         let observable = new Observable<{ id: String, message: String }>(observer => {
-            this.socket.on('CANDIDATE', (data) => {
+            this.socket.on('CANDIDATE'+roomId, (data) => {
                 console.log("RECEIVE CANDIDATE FROM " + data.id + " MESSAGE " + data.message)
                 observer.next(data);
             });
@@ -141,9 +141,9 @@ export class RealTimeService {
         console.log("SEND ANSWER TO " + data.id + " MESSAGE " + data.message)
     }
 
-    answerEvent() {
+    answerEvent(roomId: string) {
         let observable = new Observable<{ id: String, message: String }>(observer => {
-            this.socket.on('ANSWER', (data) => {
+            this.socket.on('ANSWER'+roomId, (data) => {
                 console.log("RECEIVE ANSWER TO " + data.id + " MESSAGE " + data.message)
                 observer.next(data);
             });
@@ -153,13 +153,13 @@ export class RealTimeService {
         return observable;
     }
 
-    sendCloseWindow() {
-        this.socket.emit('DISCONNECT');
+    sendCloseWindow(data) {
+        this.socket.emit('DISCONNECT', data);
     }
 
-    closeWindowEvent() {
+    closeWindowEvent(roomId: string) {
         let observable = new Observable<{ id: String }>(observer => {
-            this.socket.on('DISCONNECT', (data) => {
+            this.socket.on('DISCONNECT'+roomId, (data) => {
                 console.log("DISCONNECT PEER" + data)
                 observer.next(data);
             });

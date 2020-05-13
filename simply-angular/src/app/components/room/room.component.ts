@@ -11,7 +11,6 @@ export class RoomComponent implements OnInit {
     user: string;
     messageText: string;
     messageArray: Array<{ user: String, message: String }> = [];
-    room: string;
     roomId: string;
     profile: string;
     peerConnections = {};
@@ -101,32 +100,32 @@ export class RoomComponent implements OnInit {
         this.realTimeService.message()
             .subscribe(data => this.messageArray.push(data));
 
-        this.realTimeService.broadcastEvent().subscribe(data => {
+        this.realTimeService.broadcastEvent(this.roomId).subscribe(data => {
             this.broadcasterSocketId = data.broadcasterId;
             console.log("THE BROADCASTER ID IS : " + data.broadcasterId)
         });
 
-        this.realTimeService.watcherEvent().subscribe(id => {
+        this.realTimeService.watcherEvent(this.roomId).subscribe(id => {
             setTimeout(() => {
                 this.watcherEventTreatement(id);
             }, 5000);
         });
 
-        this.subscriptionOffreEvent = this.realTimeService.offerEvent().subscribe(data => {
+        this.subscriptionOffreEvent = this.realTimeService.offerEvent(this.roomId).subscribe(data => {
             this.offerEventTreatment(data);
         });
 
-        this.subscriptionCandidateEvent = this.realTimeService.candidateEvent().subscribe(data => {
+        this.subscriptionCandidateEvent = this.realTimeService.candidateEvent(this.roomId).subscribe(data => {
             setTimeout(() => {
                 this.candidateEventTreatement(data);
             }, 3000);
         });
 
-        this.realTimeService.answerEvent().subscribe(data => {
+        this.realTimeService.answerEvent(this.roomId).subscribe(data => {
             this.answerEventTreatement(data);
         });
 
-        this.realTimeService.closeWindowEvent().subscribe(id => {
+        this.realTimeService.closeWindowEvent(this.roomId).subscribe(id => {
             this.closeWindowEventTreatement(id);
         });
 
@@ -135,15 +134,15 @@ export class RoomComponent implements OnInit {
     }
 
     join() {
-        this.realTimeService.joinRoom({ user: this.currentUser.data.user.lastname, room: this.roomId });
+        this.realTimeService.joinRoom({ user: this.currentUser.data.user.lastname, roomId: this.roomId });
     }
 
     leave() {
-        this.realTimeService.leaveRoom({ user: this.currentUser.data.user.lastname, room: this.roomId });
+        this.realTimeService.leaveRoom({ user: this.currentUser.data.user.lastname, roomId: this.roomId });
     }
 
     sendMessage() {
-        this.realTimeService.sendMessage({ user: this.currentUser.data.user.lastname, room: this.roomId, message: this.messageText });
+        this.realTimeService.sendMessage({ user: this.currentUser.data.user.lastname, roomId: this.roomId, message: this.messageText });
     }
 
     watcherEventTreatement(id) {
@@ -165,12 +164,12 @@ export class RoomComponent implements OnInit {
             .createOffer()
             .then((sdp) => peerConnection.setLocalDescription(sdp))
             .then(() => {
-                this.realTimeService.sendOffer({ id: id, message: peerConnection.localDescription });
+                this.realTimeService.sendOffer({ id: id, message: peerConnection.localDescription, roomId: this.roomId });
             });
 
         peerConnection.onicecandidate = (event) => {
             if (event.candidate) {
-                this.realTimeService.sendCandidate({ id: id, message: event.candidate });
+                this.realTimeService.sendCandidate({ id: id, message: event.candidate, roomId: this.roomId });
             }
         };
     }
@@ -192,12 +191,12 @@ export class RoomComponent implements OnInit {
             .then(() => this.peerConnection.createAnswer())
             .then(sdp => this.peerConnection.setLocalDescription(sdp))
             .then(() => {
-                this.realTimeService.sendAnswer({ id: data.id, message: this.peerConnection.localDescription })
+                this.realTimeService.sendAnswer({ id: data.id, message: this.peerConnection.localDescription, roomId: this.roomId })
             });
 
         this.peerConnection.onicecandidate = event => {
             if (event.candidate) {
-                this.realTimeService.sendCandidate({ id: data.id, message: event.candidate });
+                this.realTimeService.sendCandidate({ id: data.id, message: event.candidate, roomId: this.roomId });
             }
         };
 
@@ -239,7 +238,7 @@ export class RoomComponent implements OnInit {
                 console.log("The following error occured: " + err);
             }
         );
-        this.realTimeService.emitBroadcasterEvent();
+        this.realTimeService.emitBroadcasterEvent(this.roomId);
     }
 
     startAudio() {
@@ -283,7 +282,7 @@ export class RoomComponent implements OnInit {
 
     @HostListener('window:beforeunload', ['$event'])
     beforeunloadHandler(event) {
-        this.realTimeService.sendCloseWindow();
+        this.realTimeService.sendCloseWindow({roomId: this.roomId});
     }
 
     closeWindowEventTreatement(id) {
@@ -333,7 +332,7 @@ export class RoomComponent implements OnInit {
             }
         });
         this.mediaRecorder.start(10);
-        this.realTimeService.emitBroadcasterEvent();
+        this.realTimeService.emitBroadcasterEvent(this.roomId);
     }
 
     stopSharingVideo(e) {

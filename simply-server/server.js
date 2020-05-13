@@ -49,47 +49,47 @@ let broadcaster;
 
 sio.on('connection', (socket) => {
     socket.on('JOINROOM', function (data){
-      socket.join(data.room)
-      socket.broadcast.to(data.room).emit('JOINROOM', {user: data.user, message: 'has joined room.'});
+      socket.join(data.roomId)
+      socket.broadcast.to(data.roomId).emit('JOINROOM', {user: data.user, message: 'has joined room.'});
     })
 
     socket.on('LEAVEROOM', function (data){
-      socket.broadcast.to(data.room).emit('LEAVEROOM', {user: data.user, message: 'has left this room.'});
-      socket.leave(data.room)
+      socket.broadcast.to(data.roomId).emit('LEAVEROOM', {user: data.user, message: 'has left this room.'});
+      socket.leave(data.roomId)
     })
 
     socket.on('MESSAGE', function (data){
-      sio.in(data.room).emit('MESSAGE', {user: data.user, message: data.message})
+      sio.in(data.roomId).emit('MESSAGE', {user: data.user, message: data.message})
     })
 
     socket.on('USERTYPING', function(data){
-      socket.broadcast.to(data.room).emit('USERTYPING', {messageTyping: data.user + ' is typing ...'});
+      socket.broadcast.to(data.roomId).emit('USERTYPING', {messageTyping: data.user + ' is typing ...'});
     })
 
-    socket.on('BROADCASTER', () => {
+    socket.on('BROADCASTER', (data) => {
       broadcaster = socket.id;
       // SAUF L'EMETTEUR DE LA SOCKET
-      socket.broadcast.emit('BROADCASTER', {broadcasterId : broadcaster});
+      socket.broadcast.emit('BROADCASTER'+data.roomId, {broadcasterId : broadcaster});
     });
 
-    socket.on('WATCHER', () => {
-      socket.to(broadcaster).emit('WATCHER', socket.id);
+    socket.on('WATCHER', (data) => {
+      socket.to(broadcaster).emit('WATCHER'+data.roomId, socket.id);
     });
 
     socket.on('OFFER', (data) => {
-      socket.to(data.id).emit('OFFER', {id: socket.id, message : data.message});
+      socket.to(data.id).emit('OFFER'+data.roomId, {id: socket.id, message : data.message});
     });
 
     socket.on('CANDIDATE', (data) => {
-      socket.to(data.id).emit('CANDIDATE', {id: socket.id, message : data.message});
+      socket.to(data.id).emit('CANDIDATE'+data.roomId, {id: socket.id, message : data.message});
     });
     
     socket.on('ANSWER', (data) => {
-      socket.to(data.id).emit('ANSWER', {id: socket.id, message : data.message});
+      socket.to(data.id).emit('ANSWER'+data.roomId, {id: socket.id, message : data.message});
     });
     
-    socket.on('DISCONNECT', () => {
-      socket.to(broadcaster).emit('DISCONNECT', socket.id);
+    socket.on('DISCONNECT', (data) => {
+      socket.to(broadcaster).emit('DISCONNECT'+data.roomId, socket.id);
     });
 });
 
